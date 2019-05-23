@@ -2,3 +2,6 @@
 	path = intro-python-code
 	url = https://github.com/CiscoDevNet/intro-python-code
 	branch = master
+[submodule "intro-rest-api-code"]
+	path = intro-rest-api-code
+	url = https://github.com/CiscoDevNet/intro-rest-api-code
