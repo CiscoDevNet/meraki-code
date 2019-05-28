@@ -1,2 +1,5 @@
 paho-mqtt
-requests
+requests==2.20.0
+jsonpickle==0.7.1
+cachecontrol==0.11.7
+python-dateutil==2.5.3
