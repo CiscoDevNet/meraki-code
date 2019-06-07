@@ -1,0 +1,4 @@
+requests
+
+[filecache]
+lockfile>=0.9
