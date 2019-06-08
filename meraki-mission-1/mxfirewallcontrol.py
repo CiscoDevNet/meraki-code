@@ -99,9 +99,9 @@ def getorglist(p_apikey):
         # MISSION TODO
         x_cisco_meraki_api_key = p_apikey
 
-        client = Meraki(x_cisco_meraki_api_key)
+        client = #instantiate Meraki class to access SDK functionality
 
-        orgs = client.organizations.get_organizations()
+        orgs = #get list of organizations
     # END MISSION SECTION
     except Exception as e:
         printusertext("ERROR 01: Unable to contact Meraki cloud")
@@ -120,10 +120,10 @@ def getnwlist(p_apikey, p_orgid):
         # MISSION TODO
         x_cisco_meraki_api_key = p_apikey
 
-        client = Meraki(x_cisco_meraki_api_key)
+        client = #instantiate Meraki class to access SDK functionality
         params = {}
         params["organization_id"] = p_orgid
-        networks = client.networks.get_organization_networks(params)
+        networks = #get list of networks in the organization
     # END MISSION SECTION
     except Exception as e:
         printusertext("ERROR 05: Unable to contact Meraki cloud")
@@ -142,8 +142,8 @@ def readmxfwruleset(p_apikey, p_nwid):
         # MISSION TODO
         x_cisco_meraki_api_key = p_apikey
         print(p_nwid)
-        client = Meraki(x_cisco_meraki_api_key)
-        rules = client.mx_l3_firewall.get_network_l3_firewall_rules(p_nwid)
+        client = #instantiate Meraki class to access SDK functionality
+        rules = #get the MX L3 Firewall Rules
     # END MISSION SECTION
     except Exception as e:
         printusertext("No Network Firewall Rules")
