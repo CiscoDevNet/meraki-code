@@ -95,11 +95,12 @@ def get_network_id(network_wh):
 
     # Get Orgs that entered Meraki API Key has access to
     try:
-        orgs = client.organizations.get_organizations()
+        # MISSION TODO
+        orgs = # MISSION - add in Python SDK call to get list of organizations
         pprint(orgs)
     except Exception as e:
         pprint(e)
-
+        # END MISSION
     # Now get a specific network based on name added on command line
     params["organization_id"] = ""
     networks = ""
@@ -110,10 +111,12 @@ def get_network_id(network_wh):
 
             if params["organization_id"] != "":
                 try:
-                    networks = client.networks.get_organization_networks(params)
+                    # MISSION TODO
+                    networks = # MISSION - add in Python SDK Call to get list of networks
                     pprint(networks)
                 except Exception as e:
                     pprint(e)
+                    # END MISSION
 
                 for network in networks:
                     if network["name"] == network_wh:
