@@ -107,8 +107,6 @@ def get_login():
 def get_success():
     global user_continue_url
 
-
-
     spark.messages.create(
     env_user.WT_ROOM_ID,
     text="Succesful Splash Login"
