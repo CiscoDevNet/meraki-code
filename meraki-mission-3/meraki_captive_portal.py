@@ -21,7 +21,6 @@ SOFTWARE.
 
 from pprint import pprint
 from flask import Flask, request, render_template, redirect, url_for, json
-import sys, getopt
 import json
 import ciscosparkapi
 import sys, getopt

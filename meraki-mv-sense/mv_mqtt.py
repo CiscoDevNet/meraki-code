@@ -1,24 +1,25 @@
 import json, requests
 import time
 import paho.mqtt.client as mqtt
+import sys, getopt
+import os
 
 from webexteam import sent_notification
-
-# mqtt setting
-MQTT_SERVER = "iot.eclipse.org"
-MQTT_PORT = 1883
-MQTT_TOPIC = "/merakimv/<CAMERA SERIAL HERE>/0"
 
 # Meraki api key
 MERAKI_API_KEY = "MERAKI API KEY HERE"
 
 # Camera network ID, get video link
-NETWORK_ID = "L_566327653141843049"
+NETWORK_ID = "NETWORK ID"
 
-# Array of cameras serial numbers
-COLLECT_CAMERAS_SERIAL_NUMBERS = ["<CAMERA SERIAL HERE>"]
-# Array of zone id, all is *. eg ["*"]
-COLLECT_ZONE_IDS = ["*"]
+# Camera serial number
+CAMERA_SERIAL = "CAMERA SERIAL"
+
+# mqtt setting
+MQTT_SERVER = "iot.eclipse.org"
+MQTT_PORT = 1883
+MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
+
 
 # motion trigger setting
 MOTION_ALERT_PEOPLE_COUNT_THRESHOLD = 1
@@ -88,7 +89,8 @@ def collect_zone_information(topic, payload):
 
 def notify(serial_number):
     # Get video link
-    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/videoLink".format(serial_number, NETWORK_ID)
+    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/snapshot".format(serial_number, NETWORK_ID)
+
     # current timestamp
     ts = str(time.time()).split(".")[0] + "000"
 
@@ -124,6 +126,30 @@ def on_message(client, userdata, msg):
 
 
 if __name__ == "__main__":
+    args = sys.argv[1:]
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "ha:n:c:", ["api_key=","network=","camera="])
+    except getopt.GetoptError:
+        print("mv_mqtt.py -a api_key -n network -c camera")
+        sys.exit(2)
+    
+    for opt, arg in opts:
+        if opt == "-h":
+            print("mv_mqtt.py -a api_key -n network -c camera")
+            sys.exit()
+        elif opt in ("-n", "--network"):
+            NETWORK_ID = arg
+        elif opt in ("-c", "--camera"):
+            CAMERA_SERIAL = arg
+        elif opt in ("-a", "--api_key"):
+            MERAKI_API_KEY = arg
+
+    print("camera: " + CAMERA_SERIAL)
+    print("network: " + NETWORK_ID)
+    print("api_key: " + MERAKI_API_KEY)
+
+    MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
 
     # mqtt
     try:
