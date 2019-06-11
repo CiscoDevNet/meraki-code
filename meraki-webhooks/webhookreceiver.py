@@ -52,7 +52,7 @@ import env_user  # noqa
 
 
 # Create a Cisco Spark object
-spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.SPARK_ACCESS_TOKEN)
+spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
 ############## USER DEFINED SETTINGS ###############
 # MERAKI SETTINGS
@@ -71,7 +71,7 @@ def get_webhook_json():
     webhook_data = json.dumps(webhook_data)
 
     spark.messages.create(
-        env_user.SPARK_ROOM_ID,
+        env_user.WT_ROOM_ID,
         text="Meraki Webhook Alert: " + webhook_data
     )
 
