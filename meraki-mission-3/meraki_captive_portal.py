@@ -1,7 +1,7 @@
 """The provided sample code in this repository will reference this file to get the
 information needed to connect to your lab backend.  You provide this info here
 once and the scripts in this repository will access it as needed by the lab.
-Copyright (c) 2018 Cisco and/or its affiliates.
+Copyright (c) 2019 Cisco and/or its affiliates.
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -19,45 +19,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+# Libraries
 from pprint import pprint
-from flask import Flask, request, render_template, redirect, url_for, json
-import sys, getopt
-import json
-import ciscosparkapi
-import sys, getopt
-import os
-import sys
-import ciscosparkapi
+from flask import Flask, json, request, render_template
+import sys, os, getopt, json
+from webexteamssdk import WebexTeamsAPI
 import requests
-
-from meraki.meraki import Meraki
-# Object Model for Networks
-from meraki.models.update_network_ssids_plash_settings_model import (
-   UpdateNetworkSsidsPlashSettingsModel
-)
-from meraki.models.update_network_ssid_model import (
-    UpdateNetworkSsidModel
-)
-from meraki.models.ap_tags_and_vlan_id_model import (
-    ApTagsAndVlanIdModel
-)
-from meraki.models.radius_accounting_server_model import (
-    RadiusAccountingServerModel
-)
-from meraki.models.radius_server_model import (
-    RadiusServerModel
-)
-from meraki.exceptions.api_exception import APIException
-
-app = Flask(__name__)
-
-global base_grant_url
-base_grant_url = ""
-global user_continue_url
-user_continue_url = ""
-global success_url
-success_url = ""
-
 
 # Get the absolute path for the directory where this file is located "here"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -69,10 +36,18 @@ project_root = os.path.abspath(os.path.join(here, ".."))
 sys.path.insert(0, project_root)
 import env_user  # noqa
 
+# WEBEX TEAMS LIBRARY
+teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
-# Create a Cisco Spark object
-spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.WT_ACCESS_TOKEN)
+# Flask App
+app = Flask(__name__)
 
+global base_grant_url
+base_grant_url = ""
+global user_continue_url
+user_continue_url = ""
+global success_url
+success_url = ""
 
 @app.route("/click", methods=["GET"])
 def get_click():
@@ -115,117 +90,108 @@ def get_success():
     return render_template("success.html",user_continue_url=user_continue_url)
 
 
-def get_network_id(network_name):
-    params={}
+# Get Network ID based on Network name entry
+def get_network_id(network_wh):
     orgs = ""
 
+    # Get Orgs that entered Meraki API Key has access to
     try:
-        orgs = client.organizations.get_organizations()
-        pprint(orgs)
+        # MISSION TODO
+        orgs = requests.get(
+            "https://api.meraki.com/api/v0/organizations",
+            headers={
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+            }
+        )
+        # END MISSION SECTION
     except Exception as e:
         pprint(e)
 
-    # Now get a specific network
-    params["organization_id"] = ""
+    # Now get a specific network based on name added on command line
     networks = ""
     if orgs != "":
         for org in orgs:
-            params["organization_id"] = org["id"]
-            pprint(params["organization_id"])
+            try:
+                # MISSION TODO
+                networks = requests.get(
+                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    headers={
+                        "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                    })
+                pprint(networks)
+                # END MISSION SECTION
+            except Exception as e:
+                pprint(e)
 
-            if params["organization_id"] != "":
-                try:
-                    networks = client.networks.get_organization_networks(params)
-                    pprint(networks)
-                except Exception as e:
-                    pprint(e)
+            for network in networks:
+                if network["name"] == network_wh:
+                    network_id = network["id"]
+                    return network_id
 
-                for network in networks:
-                    if network["name"] == network_name:
-                        network_id = network["id"]
-                        return network_id
+    return "No Network Found with that name"
 
 def set_excap_portal(network_id,url):
     try:
-        collect = {}
-        collect['network_id'] = network_id
-        
-        number = '0'
-        collect['number'] = number
-        
-        update_network_ssids_plash_settings = UpdateNetworkSsidsPlashSettingsModel()
-        update_network_ssids_plash_settings.splash_url = url+'/click'
-        update_network_ssids_plash_settings.use_splash_url = True
-        collect['update_network_ssids_plash_settings'] = update_network_ssids_plash_settings
-        
-        result = client.splash_settings.update_network_ssids_plash_settings(collect)
+        # MISSION TODO
+        requests.put(
+            "https://api.meraki.com/api/v0/networks/"+network_id+"/ssids/0/splashSettings",
+            headers = {
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                "Content-Type": "application/json"
+            },
+            data =   {
+                "splashPage": "Click-through splash page",
+                "splashUrl": url+'/click',
+                "useCustomUrl": True
+            }
+        )
+        # END MISSION SECTION
     except Exception as e:
-        print(e)
+        pprint(e)
 
 def set_ssid(network_id,wireless_name,wireless_password):
     try:
-        collect = {}
-        collect['network_id'] = network_id
-
-        number = '0'
-        collect['number'] = number
-
-        update_network_ssid = UpdateNetworkSsidModel()
-        update_network_ssid.name = wireless_name
-        update_network_ssid.enabled = True
-        update_network_ssid.auth_mode = 'psk'
-        update_network_ssid.encryption_mode = 'wpa'
-        update_network_ssid.psk = wireless_password
-        update_network_ssid.wpa_encryption_mode = 'WPA2 only'
-        update_network_ssid.splash_page = 'Click-through splash page'
-        update_network_ssid.ip_assignment_mode = 'Bridge mode'
-        update_network_ssid.use_vlan_tagging = False
-        update_network_ssid.concentrator_network_id = network_id
-        update_network_ssid.radius_accounting_enabled = False
-        update_network_ssid.radius_servers = []
-
-        update_network_ssid.radius_servers.append(RadiusServerModel())
-        update_network_ssid.radius_servers[0].host = '0.0.0.0'
-        update_network_ssid.radius_servers[0].port = '22'
-        update_network_ssid.radius_servers[0].secret = 'booyah'
-
-        update_network_ssid.radius_accounting_servers = []
-
-
-        update_network_ssid.radius_accounting_servers.append(RadiusAccountingServerModel())
-        update_network_ssid.radius_accounting_servers[0].host = '0.0.0.0'
-        update_network_ssid.radius_accounting_servers[0].port = '22'
-        update_network_ssid.radius_accounting_servers[0].secret = 'booyah'
-
-
-        update_network_ssid.ap_tags_and_vlan_ids = []
-
-        update_network_ssid.ap_tags_and_vlan_ids.append(ApTagsAndVlanIdModel())
-        update_network_ssid.ap_tags_and_vlan_ids[0].tags = 'wireless'
-        update_network_ssid.ap_tags_and_vlan_ids[0].vlan_id = '2'
-
-        update_network_ssid.walled_garden_enabled = True
-        update_network_ssid.walled_garden_ranges = '*.amazon.aws.com'
-        update_network_ssid.min_bitrate = '11'
-        update_network_ssid.band_selection = '5 GHz band only,'
-        update_network_ssid.per_client_bandwidth_limit_up = '0'
-        update_network_ssid.per_client_bandwidth_limit_down = '0'
-        collect['update_network_ssid'] = update_network_ssid
-        
-        result = client.ssids.update_network_ssid(collect)
+        # MISSION TODO
+        requests.put(
+            "https://api.meraki.com/api/v0/networks/"+network_id+"/ssids/0",
+            headers = {
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                "Content-Type": "application/json"
+            },
+            data = {
+                        "number": 0,
+                        "name": wireless_name,
+                        "enabled": True,
+                        "splashPage": "Click-through splash page",
+                        "ssidAdminAccessible": false,
+                        "authMode": "psk",
+                        "psk": wireles_password,
+                        "encryptionMode": "wpa",
+                        "wpaEncryptionMode": "WPA2 only",
+                        "ipAssignmentMode": "Bridge mode",
+                        "useVlanTagging": False,
+                        "walledGardenEnabled": True,
+                        "walledGardenRanges": "*.ngrok.io",
+                        "minBitrate": 11,
+                        "bandSelection": "5 GHz band only",
+                        "perClientBandwidthLimitUp": 0,
+                        "perClientBandwidthLimitDown": 0
+            }
+        )
+        # END MISSION SECTION
     except Exception as e:
-        print(e)
+        pprint(e)
 
 # Launch application with supplied arguments
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "ha:n:s:p:", ["api_key=","network=","ssid=","password="])
+        opts, args = getopt.getopt(argv, "hn:s:p:", ["network=","ssid=","password="])
     except getopt.GetoptError:
-        print("meraki_captive_portal.py -a api_key -n network -s ssid -p password")
+        print("meraki_captive_portal.py -n network -s ssid -p password")
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
-            print("meraki_captive_portal.py -a api_key -n network -s ssid -p password")
+            print("meraki_captive_portal.py -n network -s ssid -p password")
             sys.exit()
         elif opt in ("-n", "--network"):
             network = arg
@@ -233,14 +199,11 @@ def main(argv):
             ssid = arg
         elif opt in ("-p", "--password"):
             password = arg
-        elif opt in ("-a", "--api_key"):
-            api_key = arg
 
     print("ssid: " + ssid)
     print("password: " + password)
     print("network: " + network)
-    print("api_key: " + api_key)
-    return [network,ssid,password,api_key]
+    return [network,ssid,password]
 
 
 if __name__ == "__main__":
@@ -257,10 +220,7 @@ if __name__ == "__main__":
         if tunnel['proto'] == 'https':
             url = tunnel['public_url']
 
-    # Configuration parameters and credentials for MERAKI
-    x_cisco_meraki_api_key = args[3]
-
-    client = Meraki(x_cisco_meraki_api_key)
+    # Configuration parameters
     network_id = get_network_id(args[0])
     ssid = args[1]
     password = args[2]
