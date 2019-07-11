@@ -1,7 +1,7 @@
 """The provided sample code in this repository will reference this file to get the
 information needed to connect to your lab backend.  You provide this info here
 once and the scripts in this repository will access it as needed by the lab.
-Copyright (c) 2018 Cisco and/or its affiliates.
+Copyright (c) 2019 Cisco and/or its affiliates.
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -21,34 +21,10 @@ SOFTWARE.
 
 # Libraries
 from pprint import pprint
-from flask import Flask
-from flask import json
-from flask import request
-from flask import render_template
-import sys, getopt
-import os
-import sys
-import ciscosparkapi
+from flask import Flask, json, request, render_template
+import sys, os, getopt, json
+from webexteamssdk import WebexTeamsAPI
 import requests
-from meraki.meraki import Meraki
-import json
-from pprint import pprint
-from meraki.models.create_network_http_servers_model import (
-    CreateNetworkHttpServersModel
-)
-from meraki.models.create_network_http_servers_webhook_tests_model import (
-    CreateNetworkHttpServersWebhookTestsModel
-)
-from meraki.models.update_network_alert_settings_model import (
-    UpdateNetworkAlertSettingsModel
-)
-from meraki.models.default_destinations_model import (
-    DefaultDestinationsModel
-)
-from meraki.models.alert_model import (
-    AlertModel
-)
-from meraki.exceptions.api_exception import APIException
 
 # Get the absolute path for the directory where this file is located "here"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -60,9 +36,8 @@ project_root = os.path.abspath(os.path.join(here, ".."))
 sys.path.insert(0, project_root)
 import env_user  # noqa
 
-
-# Create a Cisco Spark object
-spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.WT_ACCESS_TOKEN)
+# WEBEX TEAMS LIBRARY
+teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
 # Flask App
 app = Flask(__name__)
@@ -77,10 +52,11 @@ def get_webhook_json():
     webhook_data = request.json
     pprint(webhook_data, indent=1)
     webhook_data = json.dumps(webhook_data)
+    # WebEx Teams can only handle so much text so limit to 1000 chars
     webhook_data = webhook_data[:1000] + '...'
 
     # Send Message to WebEx Teams
-    spark.messages.create(
+    teamsapi.messages.create(
         env_user.WT_ROOM_ID,
         text="Meraki Webhook Alert: " + webhook_data
     )
@@ -90,120 +66,137 @@ def get_webhook_json():
 
 # Get Network ID based on Network name entry
 def get_network_id(network_wh):
-    params={}
     orgs = ""
 
     # Get Orgs that entered Meraki API Key has access to
     try:
         # MISSION TODO
-        orgs = # MISSION - add in Python SDK call to get list of organizations
-        pprint(orgs)
+        orgs = requests.get(
+            "https://api.meraki.com/api/v0/organizations",
+            headers={
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+            }
+        )
+        # END MISSION SECTION
     except Exception as e:
         pprint(e)
-        # END MISSION
+
     # Now get a specific network based on name added on command line
-    params["organization_id"] = ""
     networks = ""
     if orgs != "":
         for org in orgs:
-            params["organization_id"] = org["id"]
-            pprint(params["organization_id"])
+            try:
+                # MISSION TODO
+                networks = requests.get(
+                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    headers={
+                        "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                    })
+                pprint(networks)
+                # END MISSION SECTION
+            except Exception as e:
+                pprint(e)
 
-            if params["organization_id"] != "":
-                try:
-                    # MISSION TODO
-                    networks = # MISSION - add in Python SDK Call to get list of networks
-                    pprint(networks)
-                except Exception as e:
-                    pprint(e)
-                    # END MISSION
+            for network in networks:
+                if network["name"] == network_wh:
+                    network_id = network["id"]
+                    return network_id
 
-                for network in networks:
-                    if network["name"] == network_wh:
-                        network_id = network["id"]
-                        return network_id
+    return "No Network Found with that name"
 
 # Set the Webhook receiver in Meraki
 def set_webhook_receiver(network_id,url,secret,server_name):
     try:
-        collect = {}
-        collect['network_id'] = network_id
-
-        create_network_http_servers = CreateNetworkHttpServersModel()
-        create_network_http_servers.name = server_name
-        create_network_http_servers.url = url
-        create_network_http_servers.shared_secret = secret
         # MISSION TODO
-        collect['create_network_http_servers'] = create_network_http_servers
+        https_server_id = requests.post(
+            "https://api.meraki.com/api/v0/networks/"+network_id+"/httpServers",
+            headers = {
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                "Content-Type": "application/json"
+            },
+            data = {
+                "name" : server_name,
+                "url" : url,
+                "sharedSecret" : secret
+            })
 
-        result = # MISSION - fill in the Python SDK code to create the https receiving server
-        print("Webhook Server Set Succesfully")
-        # END MISSION
-        return result['id']
-    except APIException as e:
-        print(e)
-        print(e.response_code)
+        return https_server_id['id']
+        # END MISSION SECTION
+    except Exception as e:
+        pprint(e)
         return "Setting https server fail"
 
 
 # Set the Alerts in Meraki (on set 'settingsChanged')
 def set_alerts(network_id,http_server_id):
     try:
-        collect = {}
-        collect['network_id'] = network_id
-
-        update_network_alert_settings = UpdateNetworkAlertSettingsModel()
-        update_network_alert_settings.default_destinations = DefaultDestinationsModel()
-        update_network_alert_settings.default_destinations.http_server_ids = [http_server_id]
-        update_network_alert_settings.default_destinations.all_admins = False
-        update_network_alert_settings.default_destinations.snmp = False
-        update_network_alert_settings.alerts = []
-
-        update_network_alert_settings.alerts.append(AlertModel())
-        update_network_alert_settings.alerts[0].mtype = 'settingsChanged'
-        update_network_alert_settings.alerts[0].enabled = True
-
         # MISSION TODO
-        collect['update_network_alert_settings'] = update_network_alert_settings
+        requests.put(
+            "https://api.meraki.com/api/v0/networks/"+network_id+"/alertSettings",
+            headers = {
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                "Content-Type": "application/json"
+            },
+            data = {
+                "defaultDestinations": {
+                    "emails": [""],
+                    "snmp": False,
+                    "allAdmins": False,
+                    "httpServerIds": [http_server_id]
+                },
+                "alerts":[        
+                            {
+                                "type": "settingsChanged",
+                                "enabled": True,
+                                "alertDestinations": {
+                                    "emails": [],
+                                    "snmp": false,
+                                    "allAdmins": false,
+                                    "httpServerIds": [
+                                        ""
+                                    ]
+                                },
+                                "filters": {}
+                            }
+                        ]
+            }
+        )
 
-        result = # MISSION - fill in the Python SDK code to Update Network Alert Settings
-        # END MISSION
-        print("Alerts Set Successfully")
-    except APIException as e:
-        print(e)
-        print(e.response_code)
-        return "Setting Alerts Fail"
-
+        return "Alerts Set Successfully"
+        # END MISSION SECTION
+    except Exception as e:
+        pprint(e)
+        return "Alert Settings Failed"
 
 # Launch application with supplied arguments
 def main(argv):
     try:
-        opts, args = getopt.getopt(argv, "ha:n:s:m:", ["api_key=","network=", "secret=","server_name="])
+        opts, args = getopt.getopt(argv, "hn:s:m:", ["network=", "secret=","server_name="])
     except getopt.GetoptError:
-        print("webhookreceiver.py -a api_key -n network -s <secret> -m <server_name>")
+        print("webhookreceiver.py -n network -s <secret> -m <server_name>")
         sys.exit(2)
     for opt, arg in opts:
         if opt == "-h":
-            print("webhookreceiver.py -a api_key -n network -s <secret> -m <server_name>")
+            print("webhookreceiver.py -n network -s <secret> -m <server_name>")
             sys.exit()
         elif opt in ("-s", "--secret"):
             secret = arg
         elif opt in ("-n", "--network"):
             network = arg
-        elif opt in ("-a", "--api_key"):
-            api_key = arg
         elif opt in ("-m", "--server_name"):
             server_name = arg
 
     print("secret: " + secret)
     print("network: " + network)
-    print("api_key: " + api_key)
     print("server_name: " + server_name)
-    return [network,secret,api_key,server_name]
+    return [network,secret,server_name]
 
 
 if __name__ == "__main__":
     args = main(sys.argv[1:])
+
+    # Code to get ngrok tunnel info so we don't have to set it manually
+    # This will set our "url" value to be passed to the webhook setup
     tunnels = requests.request("GET", \
      "http://127.0.0.1:4040/api/tunnels", \
      verify=False)
@@ -216,16 +209,12 @@ if __name__ == "__main__":
         if tunnel['proto'] == 'https':
             url = tunnel['public_url']
 
-    # Configuration parameters and credentials for MERAKI
-    x_cisco_meraki_api_key = args[2]
-
-    # MISSION TODO
-    client = # MISSION - instatiate the Meraki class to use the Python SDK
+    # Configuration parameters
     network_id = get_network_id(args[0])
     secret = args[1]
     server_name = args[3]
     server_id=set_webhook_receiver(network_id,url,secret,server_name)
     set_alerts(network_id,server_id)
-    # END MISSION
 
     app.run(host="0.0.0.0", port=5005, debug=False)
+

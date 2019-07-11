@@ -1,7 +1,7 @@
 """The provided sample code in this repository will reference this file to get the
 information needed to connect to your lab backend.  You provide this info here
 once and the scripts in this repository will access it as needed by the lab.
-Copyright (c) 2018 Cisco and/or its affiliates.
+Copyright (c) 2019 Cisco and/or its affiliates.
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -19,16 +19,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-
-import sys
-import getopt
+# Libraries
+from pprint import pprint
+import sys, os, getopt, json
+from webexteamssdk import WebexTeamsAPI
 import requests
-import time
-import datetime
-import os
-import re
-import ciscosparkapi
-from meraki.meraki import Meraki
 
 # Get the absolute path for the directory where this file is located "here"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -40,186 +35,61 @@ project_root = os.path.abspath(os.path.join(here, ".."))
 sys.path.insert(0, project_root)
 import env_user  # noqa
 
+# WEBEX TEAMS LIBRARY
+teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
-# Create a Cisco Spark object
-spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.WT_ACCESS_TOKEN)
+def getnetworklist():
+    orgs = ""
 
-
-class c_organizationdata:
-
-    def __init__(self):
-        self.name = ""
-        self.id = ""
-        self.nwdata = []
-        # List of dictionaries as returned by cloud. Primary key is 'id'
-
-# end class
-
-
-# Used for time.sleep(API_EXEC_DELAY). Delay added to avoid hitting dashboard
-# API max request rate
-API_EXEC_DELAY = 0.21
-
-
-def printusertext(p_message):
-    # prints a line of text that is meant for the user to read
-    # do not process these lines when chaining scripts
-    print("@ %s" % p_message)
-
-
-def printhelp():
-    # prints help text
-
-    printusertext(
-        "This is a script to manage firewall rulesets, by backing them up, \
-        inserting new rules"
-    )
-    printusertext("or replacing the whole ruleset.")
-    printusertext("")
-    printusertext("To run the script, enter:")
-    printusertext(
-        "python mxfirewallcontrol.py -k <key> \
-    [-c <command>]"
-    )
-    printusertext("")
-    printusertext("Mandatory arguments:")
-    printusertext("  -k <key>     : Your Meraki Dashboard API key")
-    printusertext(
-        "  -c create-backup  : Save rulesets in folder \
-    mxfirewallctl_backup_<timestamp> as"
-    )
-    printusertext(' filenames "<org name>__<net name>.txt"')
-
-
-def getorglist(p_apikey):
-    # returns the organizations' list for a specified admin
-
-    time.sleep(API_EXEC_DELAY)
+    # Get Orgs that entered Meraki API Key has access to
     try:
         # MISSION TODO
-        x_cisco_meraki_api_key = p_apikey
-
-        client = #instantiate Meraki class to access SDK functionality
-
-        orgs = #get list of organizations
-    # END MISSION SECTION
-    except Exception as e:
-        printusertext("ERROR 01: Unable to contact Meraki cloud")
-        sys.exit(2)
-
-    printusertext(orgs)
-
-    return (orgs)
-
-def getnwlist(p_apikey, p_orgid):
-    # returns a list of all networks in an organization
-    # on failure returns a single record with 'null' name and id
-
-    time.sleep(API_EXEC_DELAY)
-    try:
-        # MISSION TODO
-        x_cisco_meraki_api_key = p_apikey
-
-        client = #instantiate Meraki class to access SDK functionality
-        params = {}
-        params["organization_id"] = p_orgid
-        networks = #get list of networks in the organization
-    # END MISSION SECTION
-    except Exception as e:
-        printusertext("ERROR 05: Unable to contact Meraki cloud")
-        sys.exit(2)
-
-    printusertext(networks)
-
-    return (networks)
-
-
-def readmxfwruleset(p_apikey, p_nwid):
-    # return the MX L3 firewall ruleset for a network
-
-    time.sleep(API_EXEC_DELAY)
-    try:
-        # MISSION TODO
-        x_cisco_meraki_api_key = p_apikey
-        print(p_nwid)
-        client = #instantiate Meraki class to access SDK functionality
-        rules = #get the MX L3 Firewall Rules
-    # END MISSION SECTION
-    except Exception as e:
-        printusertext("No Network Firewall Rules")
-        rules = ""
-    
-    printusertext(rules)
-
-    return (rules)
-
-
-def printruleset(p_orgname, p_netname, p_ruleset):
-    # Prints a single ruleset to stdout
-
-    print("")
-    print(
-        'MX Firewall Ruleset for Organization "%s", Network "%s"'
-        % (p_orgname, p_netname)
-    )
-    i = 1
-    for line in p_ruleset:
-        print(
-            "LINE:%d protocol:%s, srcPort:%s, srcCidr:%s, destPort:%s, \
-            destCidr:%s, policy:%s, syslogEnabled:%s, comment:%s"
-            % (
-                i,
-                line["protocol"],
-                line["srcPort"],
-                line["srcCidr"],
-                line["destPort"],
-                line["destCidr"],
-                line["policy"],
-                line["syslogEnabled"],
-                line["comment"],
-            )
+        orgs = requests.get(
+            "https://api.meraki.com/api/v0/organizations",
+            headers={
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+            }
         )
-        i += 1
+        # END MISSION SECTION
+    except Exception as e:
+        pprint(e)
 
-    return (0)
-
-
-def cmdprint(p_apikey, p_orglist):
-    # Prints all rulesets in scope to stdout
-
-    buffer = []
-
-    for org in p_orglist:
-        for net in org.nwdata:
-            buffer = readmxfwruleset(p_apikey, net["id"])
-            if buffer[0]["srcPort"] != "null":
-                printruleset(org.name, net["name"], buffer)
-            else:
-                printusertext(
-                    'WARNING: Unable to read MX ruleset for "%s" > "%s"'
-                    % (org.name, net["name"])
-                )
-
-    return (0)
-
-
-def formatfilename(p_orgname, p_netname):
-    # make sure characters not suitable for filenames do not end up in string
-
-    pattern = re.compile("([^\-_ \w])+")
-    orgn = pattern.sub("", p_orgname)
-    orgn = orgn.strip()
-    netn = pattern.sub("", p_netname)
-    netn = netn.strip()
-
-    result = orgn + "__" + netn + ".txt"
-
-    return (result)
+    # Now get a specific network based on name added on command line
+    networks = ""
+    if orgs != "":
+        for org in orgs:
+            try:
+                # MISSION TODO
+                networks = requests.get(
+                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    headers={
+                        "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                    })
+                pprint(networks)
+                return networks
+                # END MISSION SECTION
+            except Exception as e:
+                pprint(e)
+    
+    return "No Networks Found"
 
 
-def cmdcreatebackup(p_apikey, p_orglist):
-    # code for the create-backup command
+def get_mx_l3_firewall_rules(network):
+    # return the MX L3 firewall ruleset for a network
+    try:
+        # MISSION TODO
+        rules = requests.get(
+                "https://api.meraki.com/api/v0/networks/"+network["id"]+"/l3FirewallRules",
+                headers={
+                    "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                })
+        pprint(network + ": " + rules)
+        return (rules)
+        # END MISSION SECTION
+    except Exception as e:
+        pprint("Rules lookup failed: " + e)
 
+def createbackup(networks):
     # create directory to place backups
     flag_creationfailed = True
     MAX_FOLDER_CREATE_TRIES = 5
@@ -237,199 +107,65 @@ def cmdcreatebackup(p_apikey, p_orglist):
             break
 
     if flag_creationfailed:
-        printusertext("ERROR 21: Unable to create directory for backups")
+        pprint("Unable to create directory for backups")
         sys.exit(2)
     else:
-        printusertext('INFO: Backup directory is "%s"' % directory)
-
-    buffer = []
+        pprint('INFO: Backup directory is "%s"' % directory)
 
     # create backups - one file per network
-    for org in p_orglist:
-        for net in org.nwdata:
-            buffer = readmxfwruleset(p_apikey, net["id"])
-            if buffer != "":
-                if buffer[0]["srcPort"] != "null":
-
-                    filename = formatfilename(org.name, net["name"])
-                    filepath = directory + "/" + filename
-                    if os.path.exists(filepath):
-                        printusertext(
-                            'ERROR 22: Cannot create backup file: name conflict \
-                            "%s"'
-                            % filename
-                        )
-                        sys.exit(2)
-                    else:
-                        buffer = readmxfwruleset(p_apikey, net["id"])
-                        try:
-                            f = open(filepath, "w")
-                        except Exception as e:
-                            printusertext(
-                                'ERROR 23: Unable to open file path for writing: \
-                                "%s"'
-                                % filepath
-                            )
-                            sys.exit(2)
-
-                        for line in buffer:
-                            f.write(
-                                '{"protocol":"%s", "srcPort":"%s", "srcCidr":"%s", \
-                                "destPort":"%s", "destCidr":"%s", "policy":"%s",\
-                                "syslogEnabled":%s, "comment":"%s"}\n'
-                                % (
-                                    line["protocol"],
-                                    line["srcPort"],
-                                    line["srcCidr"],
-                                    line["destPort"],
-                                    line["destCidr"],
-                                    line["policy"],
-                                    str(line["syslogEnabled"]).lower(),
-                                    line["comment"],
-                                )
-                            )
-
-                        try:
-                            f.close()
-                        except Exception as e:
-                            printusertext(
-                                'ERROR 24: Unable to close file path: "%s"'
-                                % filepath
-                            )
-                            sys.exit(2)
-
-                        printusertext(
-                            'INFO: Created backup for "%s". File: "%s"'
-                            % (net["name"], filename)
-                        )
-
-                        spark.messages.create(
-                            env_user.WT_ROOM_ID,
-                            files=[filepath],
-                            text="MISSION: L3 Rules Backup - Meraki - I have \
-                                completed the mission!",
-                        )
-
-                else:
-                    printusertext(
-                        'WARNING: Unable to read MX ruleset for "%s" > "%s"'
-                        % (org.name, net["name"])
-                    )
-            else:
-                printusertext(
-                    'WARNING: Unable to read MX ruleset for "%s" > "%s"'
-                    % (org.name, net["name"])
+    for network in networks:
+        rules = get_mx_l3_firewall_rules(network["id"])
+        if rules != "":
+            filename = network["id"] + ".txt"
+            filepath = directory + "/" + filename
+            if os.path.exists(filepath):
+                pprint(
+                    "Cannot create backup file: name conflict " + filename
                 )
-    return (0)
+                sys.exit(2)
+            else:
+                try:
+                    f = open(filepath, "w")
+                except Exception as e:
+                    pprint(
+                        "Unable to open file path for writing: " + filepath
+                    )
+                    sys.exit(2)
 
 
-def stripdefaultrule(p_inputruleset):
-    # strips the default allow ending rule from an MX L3 Firewall ruleset
-    outputset = []
+                f.write(rules)
 
-    if len(p_inputruleset) > 0:
-        lastline = p_inputruleset[len(p_inputruleset) - 1]
-        if lastline == {
-            "protocol": "Any",
-            "policy": "allow",
-            "comment": "Default rule",
-            "srcCidr": "Any",
-            "srcPort": "Any",
-            "syslogEnabled": False,
-            "destPort": "Any",
-            "destCidr": "Any",
-        }:
-            outputset = p_inputruleset[:-1]
+                try:
+                    f.close()
+                except Exception as e:
+                    pprintusertext(
+                        "Unable to close file path: " + filepath
+                    )
+                    sys.exit(2)
+
+                pprint(
+                    "INFO: Created backup for " + network["name"]
+                )
+
+                teamsapi.messages.create(
+                    env_user.WT_ROOM_ID,
+                    files=[filepath],
+                    text="Network " + network["name"] + " L3 Rules Backup",
+                )
+
+            else:
+                pprint(
+                    "WARNING: Unable to read MX ruleset for " + network["name"]
+                )
         else:
-            outputset = p_inputruleset
+            pprint(
+                "WARNING: Unable to read MX ruleset for " + network["name"]
+            )
+            
+    return (0)    
 
-    return (outputset)
-
-
-def parsecommand(
-    p_apikey, p_orglist, p_commandstr, p_flagcommit, p_flagbackup
-):
-    # parses command line argument "-c <command>"
-
-    splitstr = p_commandstr.split(":")
-
-    if len(splitstr) > 0:
-
-        cmd = splitstr[0].strip()
-
-        if cmd == "":
-            # default command: print
-            cmdprint(p_apikey, p_orglist)
-
-        elif cmd == "print":
-            cmdprint(p_apikey, p_orglist)
-
-        elif cmd == "create-backup":
-            cmdcreatebackup(p_apikey, p_orglist)
-
-        else:
-            printusertext('ERROR 44: Invalid command "%s"' % p_commandstr)
-            sys.exit(2)
-
-    else:
-        printusertext("DEBUG: Command string parsing failed")
-        sys.exit(2)
-
-    return (0)
-
-
-def main(argv):
-    # python mxfirewallcontrol -k <key> -o <org> [-c <command>]
-
-    # set default values for command line arguments
-    arg_apikey = ""
-    arg_command = ""
-
-    # get command line arguments
-    try:
-        opts, args = getopt.getopt(argv, "hk:f:c:")
-    except getopt.GetoptError:
-        printhelp()
-        sys.exit(2)
-
-    for opt, arg in opts:
-        if opt == "-h":
-            printhelp()
-            sys.exit()
-        elif opt == "-k":
-            arg_apikey = arg
-        elif opt == "-c":
-            arg_command = arg
-
-    # check if all parameters are required parameters have been given
-    if arg_apikey == "":
-        printhelp()
-        sys.exit(2)
-
-    printusertext("INFO: Retrieving organization info")
-
-    # compile list of organizations to be processed
-    orgs = getorglist(arg_apikey)
-    orglist=[]
-    
-    i = 0
-    for org in orgs:
-        orglist.append(c_organizationdata())
-        orglist[i].name = org["name"]
-        orglist[i].id = org["id"]
-        i += 1
-
-    for org in orglist:
-        netlist = getnwlist(arg_apikey,  org.id)
-        org.nwdata = netlist
-
-    # parse and execute command
-    parsecommand(
-        arg_apikey, orglist, arg_command, None, None
-    )
-
-    printusertext("INFO: End of script.")
-
-
+# Launch application
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    # Configuration parameters
+    networks = getnetworklist()
+    createbackup(networks)
