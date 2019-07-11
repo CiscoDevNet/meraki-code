@@ -50,6 +50,8 @@ def getnetworklist():
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
         )
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
         orgs = json.loads(orgs.text)
         pprint(orgs)
         # END MISSION SECTION
@@ -67,6 +69,8 @@ def getnetworklist():
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
+                # Deserialize response text (str) to Python Dictionary object so
+                # we can work with it
                 networks = json.loads(networks.text)
                 pprint(networks)
                 return networks
