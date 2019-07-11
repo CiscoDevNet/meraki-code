@@ -77,6 +77,10 @@ def get_network_id(network_wh):
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
         )
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
+        orgs = json.loads(orgs.text)
+        pprint(orgs)
         # END MISSION SECTION
     except Exception as e:
         pprint(e)
@@ -92,6 +96,9 @@ def get_network_id(network_wh):
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
+                # Deserialize response text (str) to Python Dictionary object so
+                # we can work with it
+                networks = json.loads(networks.text)
                 pprint(networks)
                 # END MISSION SECTION
             except Exception as e:
@@ -114,12 +121,16 @@ def set_webhook_receiver(network_id,url,secret,server_name):
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
             },
-            data = {
+            data = json.dumps({
                 "name" : server_name,
                 "url" : url,
                 "sharedSecret" : secret
-            })
-
+            }))
+        pprint(https_server_id)
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
+        https_server_id = json.loads(https_server_id.text)
+        pprint(https_server_id)
         return https_server_id['id']
         # END MISSION SECTION
     except Exception as e:
@@ -131,37 +142,36 @@ def set_webhook_receiver(network_id,url,secret,server_name):
 def set_alerts(network_id,http_server_id):
     try:
         # MISSION TODO
-        requests.put(
+        response = requests.put(
             "https://api.meraki.com/api/v0/networks/"+network_id+"/alertSettings",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
             },
-            data = {
-                "defaultDestinations": {
-                    "emails": [""],
-                    "snmp": False,
-                    "allAdmins": False,
-                    "httpServerIds": [http_server_id]
-                },
-                "alerts":[        
-                            {
-                                "type": "settingsChanged",
-                                "enabled": True,
-                                "alertDestinations": {
-                                    "emails": [],
-                                    "snmp": false,
-                                    "allAdmins": false,
-                                    "httpServerIds": [
-                                        ""
-                                    ]
-                                },
-                                "filters": {}
-                            }
+            data = json.dumps(
+                {
+                    "defaultDestinations": {
+                        "emails": [],
+                        "snmp": False,
+                        "allAdmins": False,
+                        "httpServerIds": [http_server_id]
+                    },
+                    "alerts":[        
+                                {
+                                    "type": "settingsChanged",
+                                    "enabled": True,
+                                    "alertDestinations": {
+                                        "emails": [],
+                                        "snmp": False,
+                                        "allAdmins": False,
+                                        "httpServerIds": []
+                                    },
+                                    "filters": {}
+                                }
                         ]
-            }
+            })
         )
-
+        pprint(response)
         return "Alerts Set Successfully"
         # END MISSION SECTION
     except Exception as e:
@@ -212,7 +222,7 @@ if __name__ == "__main__":
     # Configuration parameters
     network_id = get_network_id(args[0])
     secret = args[1]
-    server_name = args[3]
+    server_name = args[2]
     server_id=set_webhook_receiver(network_id,url,secret,server_name)
     set_alerts(network_id,server_id)
 
