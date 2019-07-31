@@ -21,7 +21,7 @@ SOFTWARE.
 
 # Libraries
 from pprint import pprint
-import sys, os, getopt, json
+import sys, os, getopt, json, time, datetime
 from webexteamssdk import WebexTeamsAPI
 import requests
 
@@ -45,11 +45,15 @@ def getnetworklist():
     try:
         # MISSION TODO
         orgs = requests.get(
-            "https://api.meraki.com/api/v0/organizations",
+            "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
         )
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
+        orgs = json.loads(orgs.text)
+        pprint(orgs)
         # END MISSION SECTION
     except Exception as e:
         pprint(e)
@@ -61,15 +65,19 @@ def getnetworklist():
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
+                # Deserialize response text (str) to Python Dictionary object so
+                # we can work with it
+                networks = json.loads(networks.text)
                 pprint(networks)
                 return networks
                 # END MISSION SECTION
             except Exception as e:
                 pprint(e)
+                return ""
     
     return "No Networks Found"
 
@@ -79,15 +87,17 @@ def get_mx_l3_firewall_rules(network):
     try:
         # MISSION TODO
         rules = requests.get(
-                "https://api.meraki.com/api/v0/networks/"+network["id"]+"/l3FirewallRules",
+                "TODO:ADD URL TO GET L3 Firewall Rules HERE (be sure to add network id to the string)",
                 headers={
                     "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 })
-        pprint(network + ": " + rules)
-        return (rules)
+        pprint(network + ": " + rules.text)
+        return rules.text
         # END MISSION SECTION
     except Exception as e:
-        pprint("Rules lookup failed: " + e)
+        pprint("Rules lookup failed")
+        pprint(e)
+        return ""
 
 def createbackup(networks):
     # create directory to place backups
@@ -101,6 +111,7 @@ def createbackup(networks):
         try:
             os.makedirs(directory)
         except Exception as e:
+            print(e)
             flag_noerrors = False
         if flag_noerrors:
             flag_creationfailed = False
@@ -110,7 +121,7 @@ def createbackup(networks):
         pprint("Unable to create directory for backups")
         sys.exit(2)
     else:
-        pprint('INFO: Backup directory is "%s"' % directory)
+        pprint('INFO: Backup directory is ' + directory)
 
     # create backups - one file per network
     for network in networks:
@@ -151,11 +162,6 @@ def createbackup(networks):
                     env_user.WT_ROOM_ID,
                     files=[filepath],
                     text="Network " + network["name"] + " L3 Rules Backup",
-                )
-
-            else:
-                pprint(
-                    "WARNING: Unable to read MX ruleset for " + network["name"]
                 )
         else:
             pprint(
