@@ -165,7 +165,7 @@ def set_ssid(network_id,wireless_name,wireless_password):
                         "splashPage": "Click-through splash page",
                         "ssidAdminAccessible": false,
                         "authMode": "psk",
-                        "psk": wireles_password,
+                        "psk": wireless_password,
                         "encryptionMode": "wpa",
                         "wpaEncryptionMode": "WPA2 only",
                         "ipAssignmentMode": "Bridge mode",
