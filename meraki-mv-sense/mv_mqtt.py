@@ -1,13 +1,44 @@
+"""The provided sample code in this repository will reference this file to get the
+information needed to connect to your lab backend.  You provide this info here
+once and the scripts in this repository will access it as needed by the lab.
+Copyright (c) 2019 Cisco and/or its affiliates.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
 import json, requests
 import time
 import paho.mqtt.client as mqtt
 import sys, getopt
 import os
+from pprint import pprint
+from webexteamssdk import WebexTeamsAPI
 
-from webexteam import sent_notification
+# Get the absolute path for the directory where this file is located "here"
+here = os.path.abspath(os.path.dirname(__file__))
 
-# Meraki api key
-MERAKI_API_KEY = "MERAKI API KEY HERE"
+# Get the absolute path for the project / repository root
+project_root = os.path.abspath(os.path.join(here, ".."))
+
+# Extend the system path to include the project root and import the env files
+sys.path.insert(0, project_root)
+import env_user  # noqa
+
+# WEBEX TEAMS LIBRARY
+teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
 # Camera network ID, get video link
 NETWORK_ID = "NETWORK ID"
@@ -38,17 +69,11 @@ _MONITORING_PEOPLE_TOTAL_COUNT = 0
 
 
 def collect_zone_information(topic, payload):
-    ## /merakimv/Q2GV-S7PZ-FGBK/123
-
     parameters = topic.split("/")
     serial_number = parameters[2]
+    print('SERIAL: ' + serial_number)
     zone_id = parameters[3]
-    index = len([i for i, x in enumerate(COLLECT_ZONE_IDS) if x == zone_id])
-
-    # if not wildcard or not in the zone_id list or equal to 0 (whole camera)
-    if COLLECT_ZONE_IDS[0] != "*":
-        if index == 0 or zone_id == "0":
-            return
+    print('ZONE: ' + str(zone_id))
 
     # detect motion
 
@@ -89,7 +114,7 @@ def collect_zone_information(topic, payload):
 
 def notify(serial_number):
     # Get video link
-    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/snapshot".format(serial_number, NETWORK_ID)
+    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/videoLink".format(serial_number, NETWORK_ID)
 
     # current timestamp
     ts = str(time.time()).split(".")[0] + "000"
@@ -97,15 +122,21 @@ def notify(serial_number):
     querystring = {"timestamp": ts}
 
     headers = {
-        'X-Cisco-Meraki-API-Key': MERAKI_API_KEY,
+        'X-Cisco-Meraki-API-Key': env_user.MERAKI_API_KEY,
         "Content-Type": "application/json"
     }
     resp = requests.request("GET", url, headers=headers, params=querystring)
 
-    if int(resp.status_code / 100) == 2:
+    print(resp.text)
+    if int(resp.status_code) == 200:
         print("trigger alert")
-        msg = "An alert triggered.  \n Video : ".format(resp.json().get("url"))
-        sent_notification(msg)
+        msg = "An alert triggered.  \n Video : {}".format(resp.json().get("url"))
+
+        # Send Message to WebEx Teams
+        teamsapi.messages.create(
+            env_user.WT_ROOM_ID,
+            text=msg
+        )
 
 
 def on_connect(client, userdata, flags, rc):
@@ -118,12 +149,56 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     payload = json.loads(msg.payload.decode("utf-8"))
     payload = payload["counts"]["person"]
-    parameters = msg.topic.split("/")
-    serial_number = parameters[2]
+    
+    collect_zone_information(msg.topic, payload)
 
-    if msg.topic[-14:] != 'raw_detections':
-        collect_zone_information(msg.topic, payload)
 
+# Get Network ID based on Network name entry
+def get_network_id(network_wh):
+    orgs = ""
+
+    # Get Orgs that entered Meraki API Key has access to
+    try:
+        # MISSION TODO
+        orgs = requests.get(
+            "https://api.meraki.com/api/v0/organizations",
+            headers={
+                "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+            }
+        )
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
+        orgs = json.loads(orgs.text)
+        pprint(orgs)
+        # END MISSION SECTION
+    except Exception as e:
+        pprint(e)
+
+    # Now get a specific network based on name added on command line
+    networks = ""
+    if orgs != "":
+        for org in orgs:
+            try:
+                # MISSION TODO
+                networks = requests.get(
+                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    headers={
+                        "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+                    })
+                # Deserialize response text (str) to Python Dictionary object so
+                # we can work with it
+                networks = json.loads(networks.text)
+                pprint(networks)
+                # END MISSION SECTION
+            except Exception as e:
+                pprint(e)
+
+            for network in networks:
+                if network["name"] == network_wh:
+                    network_id = network["id"]
+                    return network_id
+
+    return "No Network Found with that name"
 
 if __name__ == "__main__":
     args = sys.argv[1:]
@@ -131,23 +206,21 @@ if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:], "ha:n:c:", ["api_key=","network=","camera="])
     except getopt.GetoptError:
-        print("mv_mqtt.py -a api_key -n network -c camera")
+        print("mv_mqtt.py -n network -c camera")
         sys.exit(2)
     
     for opt, arg in opts:
         if opt == "-h":
-            print("mv_mqtt.py -a api_key -n network -c camera")
+            print("mv_mqtt.py -n network -c camera")
             sys.exit()
         elif opt in ("-n", "--network"):
-            NETWORK_ID = arg
+            network_wh = arg
+            NETWORK_ID = get_network_id(network_wh)
         elif opt in ("-c", "--camera"):
             CAMERA_SERIAL = arg
-        elif opt in ("-a", "--api_key"):
-            MERAKI_API_KEY = arg
 
-    print("camera: " + CAMERA_SERIAL)
+    print("camera: " + CAMERA_SERIAL) 
     print("network: " + NETWORK_ID)
-    print("api_key: " + MERAKI_API_KEY)
 
     MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
 
