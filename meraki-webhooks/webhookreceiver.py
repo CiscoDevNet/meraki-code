@@ -30,15 +30,10 @@ SOFTWARE.
 
 # Libraries
 from pprint import pprint
-from flask import Flask
-from flask import json
-from flask import request
-from flask import render_template
-import sys, getopt
-import json
-import os
-import sys
-import ciscosparkapi
+from flask import Flask, json, request, render_template
+import sys, os, getopt, json
+from webexteamssdk import WebexTeamsAPI
+import requests
 
 # Get the absolute path for the directory where this file is located "here"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -50,27 +45,27 @@ project_root = os.path.abspath(os.path.join(here, ".."))
 sys.path.insert(0, project_root)
 import env_user  # noqa
 
+# WEBEX TEAMS LIBRARY
+teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
-# Create a Cisco Spark object
-spark = ciscosparkapi.CiscoSparkAPI(access_token=env_user.WT_ACCESS_TOKEN)
-
-############## USER DEFINED SETTINGS ###############
-# MERAKI SETTINGS
-webhook_data = "Webhook Data Goes Here"
-secret = "secret goes here"
-####################################################
+# Flask App
 app = Flask(__name__)
 
-
+# Webhook Receiver Code - Accepts JSON POST from Meraki and 
+# Posts to WebEx Teams
 @app.route("/", methods=["POST"])
 def get_webhook_json():
     global webhook_data
 
+    # Webhook Receiver
     webhook_data = request.json
     pprint(webhook_data, indent=1)
     webhook_data = json.dumps(webhook_data)
+    # WebEx Teams can only handle so much text so limit to 1000 chars
+    webhook_data = webhook_data[:1000] + '...'
 
-    spark.messages.create(
+    # Send Message to WebEx Teams
+    teamsapi.messages.create(
         env_user.WT_ROOM_ID,
         text="Meraki Webhook Alert: " + webhook_data
     )
