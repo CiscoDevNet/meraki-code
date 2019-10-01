@@ -47,7 +47,7 @@ NETWORK_ID = "NETWORK ID"
 CAMERA_SERIAL = "CAMERA SERIAL"
 
 # mqtt setting
-MQTT_SERVER = "iot.eclipse.org"
+MQTT_SERVER = "mqtt.eclipse.org"
 MQTT_PORT = 1883
 MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
 
@@ -149,7 +149,7 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     payload = json.loads(msg.payload.decode("utf-8"))
     payload = payload["counts"]["person"]
-    
+
     collect_zone_information(msg.topic, payload)
 
 
@@ -208,7 +208,7 @@ if __name__ == "__main__":
     except getopt.GetoptError:
         print("mv_mqtt.py -n network -c camera")
         sys.exit(2)
-    
+
     for opt, arg in opts:
         if opt == "-h":
             print("mv_mqtt.py -n network -c camera")
@@ -219,7 +219,7 @@ if __name__ == "__main__":
         elif opt in ("-c", "--camera"):
             CAMERA_SERIAL = arg
 
-    print("camera: " + CAMERA_SERIAL) 
+    print("camera: " + CAMERA_SERIAL)
     print("network: " + NETWORK_ID)
 
     MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
