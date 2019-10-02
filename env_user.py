@@ -36,6 +36,6 @@ SOFTWARE.
 
 WT_ACCESS_TOKEN = ""
 WT_ROOM_ID = ""
-MERAKI_API_KEY = ""
+MERAKI_API_KEY = "94dfd2a4c4fea530c34f7fe3cde88cacbcc55618"
 
 # End User Input

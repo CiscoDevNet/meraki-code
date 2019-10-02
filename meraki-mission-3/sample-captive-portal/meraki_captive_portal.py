@@ -48,6 +48,8 @@ global user_continue_url
 user_continue_url = ""
 global success_url
 success_url = ""
+global network_id
+network_id = ""
 
 @app.route("/click", methods=["GET"])
 def get_click():
@@ -81,10 +83,21 @@ def get_login():
 @app.route("/success",methods=["GET"])
 def get_success():
     global user_continue_url
+    global network_id
 
-    spark.messages.create(
-    env_user.WT_ROOM_ID,
-    text="Succesful Splash Login"
+    # MISSION TODO
+    splash_logins = requests.get(
+        "TODO:ADD URL TO GET SPLASH LOGIN ATTEMPTS HERE",
+        headers={
+            "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
+        }
+    )
+    # END MISSION SECTION
+
+    # Send Message to WebEx Teams
+    teamsapi.messages.create(
+        env_user.WT_ROOM_ID,
+        text="Splash Login Attempt: " + json.loads(splash_logins.text)[-1]
     )
 
     return render_template("success.html",user_continue_url=user_continue_url)
@@ -92,6 +105,8 @@ def get_success():
 
 # Get Network ID based on Network name entry
 def get_network_id(network_wh):
+    global network_id 
+
     orgs = ""
 
     # Get Orgs that entered Meraki API Key has access to
