@@ -39,6 +39,9 @@ import env_user  # noqa
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
+# MERAKI BASE URL 
+base_url = "https://api.meraki.com/api/v0"
+
 # Flask App
 app = Flask(__name__)
 
@@ -72,7 +75,7 @@ def get_network_id(network_wh):
     try:
         # MISSION TODO
         orgs = requests.get(
-            "https://api.meraki.com/api/v0/organizations",
+            base_url + "/organizations",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -92,7 +95,7 @@ def get_network_id(network_wh):
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    base_url + "/organizations/"+org["id"]+"/networks",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
@@ -116,7 +119,7 @@ def set_webhook_receiver(network_id,url,secret,server_name):
     try:
         # MISSION TODO
         https_server_id = requests.post(
-            "https://api.meraki.com/api/v0/networks/"+network_id+"/httpServers",
+            base_url + "/networks/"+network_id+"/httpServers",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
@@ -143,7 +146,7 @@ def set_alerts(network_id,http_server_id):
     try:
         # MISSION TODO
         response = requests.put(
-            "https://api.meraki.com/api/v0/networks/"+network_id+"/alertSettings",
+            base_url + "/networks/"+network_id+"/alertSettings",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"

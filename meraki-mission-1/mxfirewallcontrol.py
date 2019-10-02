@@ -38,6 +38,9 @@ import env_user  # noqa
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
+# MERAKI BASE URL 
+base_url = "https://api.meraki.com/api/v0"
+
 def getnetworklist():
     orgs = ""
 
@@ -45,7 +48,7 @@ def getnetworklist():
     try:
         # MISSION TODO
         orgs = requests.get(
-            "https://api.meraki.com/api/v0/organizations",
+            base_url + "/organizations",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -65,7 +68,7 @@ def getnetworklist():
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    base_url + "/organizations/"+org["id"]+"/networks",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
@@ -87,7 +90,7 @@ def get_mx_l3_firewall_rules(network):
     try:
         # MISSION TODO
         rules = requests.get(
-                "https://api.meraki.com/api/v0/networks/"+network+"/l3FirewallRules",
+                base_url + "/networks/"+network+"/l3FirewallRules",
                 headers={
                     "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 })
@@ -148,7 +151,7 @@ def createbackup(networks):
                 try:
                     f.close()
                 except Exception as e:
-                    pprintusertext(
+                    pprint(
                         "Unable to close file path: " + filepath
                     )
                     sys.exit(2)
