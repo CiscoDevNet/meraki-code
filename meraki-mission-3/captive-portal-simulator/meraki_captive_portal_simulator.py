@@ -13,12 +13,11 @@ https://developer.cisco.com/site/Meraki
 # Libraries
 from flask import Flask, request, render_template, redirect, url_for, Response
 import random
-import datetime
+from dateteim import datetime
 import time
 import requests
 import webview
 import netifaces as nif
-import datetime
 import threading
 import json
 
@@ -98,7 +97,8 @@ def connect_to_wifi():
     node_mac = generate_fake_mac()
     client_ip = request.remote_addr
     client_mac = generate_fake_mac()
-    splashclick_time = datetime.datetime.now()
+    splashclick_time = datetime.now()
+    splashclick_time = datetime.timestamp(splashclick_time)
     full_url = captive_portal_url + \
     "?base_grant_url=" + base_grant_url + \
     "&user_continue_url=" + user_continue_url + \
