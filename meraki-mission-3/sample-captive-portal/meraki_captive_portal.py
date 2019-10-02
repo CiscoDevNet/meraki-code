@@ -90,7 +90,7 @@ def get_success():
 
     # MISSION TODO
     splash_logins = requests.get(
-        "TODO:ADD URL TO GET SPLASH LOGIN ATTEMPTS HERE",
+        base_url + "TODO:ADD URL TO GET SPLASH LOGIN ATTEMPTS HERE",
         headers={
             "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
         }
@@ -116,7 +116,7 @@ def get_network_id(network_wh):
     try:
         # MISSION TODO
         orgs = requests.get(
-            "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
+            base_url + "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -136,7 +136,7 @@ def get_network_id(network_wh):
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
+                    base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
@@ -159,7 +159,7 @@ def set_excap_portal(network_id,url):
     try:
         # MISSION TODO
         requests.put(
-            "TODO:ADD URL TO SET SPLASH SETTINGS HERE (be sure to add network id to the string)",
+            base_url + "TODO:ADD URL TO SET SPLASH SETTINGS HERE (be sure to add network id to the string)",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
@@ -178,7 +178,7 @@ def set_ssid(network_id,wireless_name,wireless_password):
     try:
         # MISSION TODO
         requests.put(
-            "TODO:ADD URL TO SET SSID SETTINGS HERE (be sure to add network id to the string)",
+            base_url + "TODO:ADD URL TO SET SSID SETTINGS HERE (be sure to add network id to the string)",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
