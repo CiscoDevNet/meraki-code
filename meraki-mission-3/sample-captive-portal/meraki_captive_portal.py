@@ -21,7 +21,7 @@ SOFTWARE.
 
 # Libraries
 from pprint import pprint
-from flask import Flask, json, request, render_template
+from flask import Flask, json, request, render_template, redirect
 import sys, os, getopt, json
 from webexteamssdk import WebexTeamsAPI
 import requests
@@ -30,7 +30,7 @@ import requests
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Get the absolute path for the project / repository root
-project_root = os.path.abspath(os.path.join(here, ".."))
+project_root = os.path.abspath(os.path.join(here, "../.."))
 
 # Extend the system path to include the project root and import the env files
 sys.path.insert(0, project_root)
@@ -38,6 +38,9 @@ import env_user  # noqa
 
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
+
+# MERAKI BASE URL 
+base_url = "https://api.meraki.com/api/v0"
 
 # Flask App
 app = Flask(__name__)
@@ -97,7 +100,7 @@ def get_success():
     # Send Message to WebEx Teams
     teamsapi.messages.create(
         env_user.WT_ROOM_ID,
-        text="Splash Login Attempt: " + json.loads(splash_logins.text)[-1]
+        text="Splash Login Attempt: " + json.dumps(json.loads(splash_logins.text)[-1])
     )
 
     return render_template("success.html",user_continue_url=user_continue_url)
@@ -118,6 +121,10 @@ def get_network_id(network_wh):
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
         )
+        # Deserialize response text (str) to Python Dictionary object so
+        # we can work with it
+        orgs = json.loads(orgs.text)
+        pprint(orgs)
         # END MISSION SECTION
     except Exception as e:
         pprint(e)
@@ -133,6 +140,9 @@ def get_network_id(network_wh):
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
+                # Deserialize response text (str) to Python Dictionary object so
+                # we can work with it
+                networks = json.loads(networks.text)
                 pprint(networks)
                 # END MISSION SECTION
             except Exception as e:
@@ -154,11 +164,11 @@ def set_excap_portal(network_id,url):
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
             },
-            data =   {
+            data =   json.dumps({
                 "splashPage": "Click-through splash page",
                 "splashUrl": url+'/click',
                 "useCustomUrl": True
-            }
+            })
         )
         # END MISSION SECTION
     except Exception as e:
@@ -173,7 +183,7 @@ def set_ssid(network_id,wireless_name,wireless_password):
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
             },
-            data = {
+            data = json.dumps({
                         "number": 0,
                         "name": wireless_name,
                         "enabled": True,
@@ -191,7 +201,7 @@ def set_ssid(network_id,wireless_name,wireless_password):
                         "bandSelection": "5 GHz band only",
                         "perClientBandwidthLimitUp": 0,
                         "perClientBandwidthLimitDown": 0
-            }
+            })
         )
         # END MISSION SECTION
     except Exception as e:
@@ -223,17 +233,21 @@ def main(argv):
 
 if __name__ == "__main__":
     args = main(sys.argv[1:])
+    
+    # Comment out the following line if uncommenting the below block
+    url = "http://localhost:5004"
+
+    ''' Uncomment this block if using Meraki Dashboard and ngrok
     tunnels = requests.request("GET", \
      "http://127.0.0.1:4040/api/tunnels", \
      verify=False)
-
     tunnels = json.loads(tunnels.text)
     tunnels = tunnels["tunnels"]
-
     url = ""
     for tunnel in tunnels:
         if tunnel['proto'] == 'https':
             url = tunnel['public_url']
+    '''
 
     # Configuration parameters
     network_id = get_network_id(args[0])
