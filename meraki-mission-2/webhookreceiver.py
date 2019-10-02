@@ -39,6 +39,9 @@ import env_user  # noqa
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
+# MERAKI BASE URL 
+base_url = "https://api.meraki.com/api/v0"
+
 # Flask App
 app = Flask(__name__)
 
@@ -72,7 +75,7 @@ def get_network_id(network_wh):
     try:
         # MISSION TODO
         orgs = requests.get(
-            "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
+            base_url + "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -92,7 +95,7 @@ def get_network_id(network_wh):
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
+                    base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
@@ -116,7 +119,7 @@ def set_webhook_receiver(network_id,url,secret,server_name):
     try:
         # MISSION TODO
         https_server_id = requests.post(
-            "TODO:ADD URL TO CREATE A HTTPS SERVER HERE (be sure to add network id to the string)",
+            base_url + "TODO:ADD URL TO CREATE A HTTPS SERVER HERE (be sure to add network id to the string)",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
@@ -143,7 +146,7 @@ def set_alerts(network_id,http_server_id):
     try:
         # MISSION TODO
         response = requests.put(
-            "TODO:ADD URL TO EDIT NETWORK ALERT SETTINGS HERE (be sure to add network id to the string)",
+            base_url + "TODO:ADD URL TO EDIT NETWORK ALERT SETTINGS HERE (be sure to add network id to the string)",
             headers = {
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
