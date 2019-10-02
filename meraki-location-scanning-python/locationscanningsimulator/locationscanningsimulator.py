@@ -201,9 +201,11 @@ def generate_location_data():
             }
         )
 
+    print("should redirect now")
+    redirect("running", code=303)
+
     # Pass the AP array to cycle through them to
     ap_cycle(num_aps)
-
 
 def update_location_data(ap):
     global ap_data
@@ -237,14 +239,13 @@ def update_location_data(ap):
     print("updated ap ")
     print(ap_data[ap])
 
-
 def post_json(ap):
     global ap_data
     global server_url
     requests.post(server_url, json=ap_data[ap])  # post to listener
-    requests.get("http://localhost:5002/running")
     print(ap_data[ap])
-    return redirect(url_for("running"))
+    print("should redirect now")
+    redirect("running", code=303)
 
 
 @app.route("/running", methods=["GET"])
