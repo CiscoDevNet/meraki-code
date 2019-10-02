@@ -38,6 +38,9 @@ import env_user  # noqa
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
+# MERAKI BASE URL 
+base_url = "https://api.meraki.com/api/v0"
+
 def getnetworklist():
     orgs = ""
 
@@ -45,7 +48,7 @@ def getnetworklist():
     try:
         # MISSION TODO
         orgs = requests.get(
-            "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
+            base_url + "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -65,7 +68,7 @@ def getnetworklist():
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
+                    base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
@@ -87,7 +90,7 @@ def get_mx_l3_firewall_rules(network):
     try:
         # MISSION TODO
         rules = requests.get(
-                "TODO:ADD URL TO GET L3 Firewall Rules HERE (be sure to add network id to the string)",
+                base_url + "TODO:ADD URL TO GET L3 Firewall Rules HERE (be sure to add network id to the string)",
                 headers={
                     "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 })
