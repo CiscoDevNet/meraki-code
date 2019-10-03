@@ -1,0 +1,1137 @@
+{
+	"info": {
+		"_postman_id": "b80482a9-2a55-44bf-8156-d337030963f5",
+		"name": "Meraki Webhooks - Samples",
+		"description": "# Overview\n\nA collection of sample Meraki alerts that would normally be delivered via a webhook.\n\nUse this collection to \"post\" to your receiving server to simulate Meraki sending this data.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "APs came up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T22:41:27.571121Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"APs came up\",\n  \"occurredAt\": \"2019-07-18T22:24:24.000000Z\",\n  \"alertData\": {}\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APs went down",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T22:57:48.803684Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"APs went down\",\n  \"occurredAt\": \"2019-07-18T22:34:01.000000Z\",\n  \"alertData\": {}\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Action Required: Upcoming firewall information changes",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T08:04:14.363606Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Action Required: Upcoming firewall information changes\",\n  \"occurredAt\": \"2018-05-21T13:01:15.948069Z\",\n  \"alertData\": {\n    \"failureMessage\": \"2 failing tests over 1 networks\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Air Marshal - Rogue AP detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T05:42:41.531586Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Air Marshal - Rogue AP detected\",\n  \"occurredAt\": \"2019-07-19T04:29:07.000000Z\",\n  \"alertData\": {\n    \"countNode\": 1,\n    \"bssids\": \"aa:aa:aa:11:11:11\",\n    \"minFirstSeen\": 1563510547,\n    \"maxLastSeen\": 1563510547,\n    \"countIsContained\": 0,\n    \"reason\": \"Seen on LAN\",\n    \"wiredMac\": \"00:00:00:44:44:44\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bluetooth Clients have become visible",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T08:01:41.005642Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Bluetooth Clients have become visible\",\n  \"occurredAt\": \"2019-07-19T06:55:01.928338Z\",\n  \"alertData\": {\n    \"mac\": \"00:00:00:33:33:33\",\n    \"name\": \"\",\n    \"rowStartedAt\": {\n      \"millisFromEpoch\": 1563208308228\n    },\n    \"bluetoothClientId\": \"9999900099999\",\n    \"rssi\": -94,\n    \"seenAt\": {\n      \"millisFromEpoch\": 1563519260925\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bluetooth Clients have gone out of range",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T08:02:52.402648Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Bluetooth Clients have gone out of range\",\n  \"occurredAt\": \"2019-07-19T06:51:16.400053Z\",\n  \"alertData\": {\n    \"mac\": \"00:00:00:33:33:33\",\n    \"name\": \"\",\n    \"rowStartedAt\": {\n      \"millisFromEpoch\": 1563208308228\n    },\n    \"bluetoothClientId\": \"9999900099999\",\n    \"rssi\": -91,\n    \"seenAt\": {\n      \"millisFromEpoch\": 1563208304228\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cable error detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:45:15.158031Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Cable error detected\",\n  \"occurredAt\": \"2019-07-12T17:26:35.000000Z\",\n  \"alertData\": {\n    \"portNum\": 3,\n    \"description\": \"Gigabit link negotiation failed\",\n    \"status\": 786,\n    \"prevStatus\": 19,\n    \"portDesc\": \"Corp Access\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cellular came up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T23:39:36.121790Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Cellular came up\",\n  \"occurredAt\": \"2019-07-18T23:35:50.941000Z\",\n  \"alertData\": {\n    \"provider\": \"Verizon Wireless\",\n    \"model\": \"UML290VW\",\n    \"local\": \"192.168.99.1\",\n    \"remote\": \"1.1.1.1\",\n    \"connection\": \"LTE\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cellular went down",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T23:42:26.937287Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Cellular went down\",\n  \"occurredAt\": \"2019-07-18T22:38:45.429000Z\",\n  \"alertData\": {\n    \"bytesIn\": \"1861\",\n    \"provider\": \"AT&amp;amp;T\",\n    \"model\": \"AirCard 340U\",\n    \"local\": \"192.168.99.1\",\n    \"remote\": \"1.1.1.1\",\n    \"connectTime\": \"2\",\n    \"bytesOut\": \"1880\",\n    \"connection\": \"4G\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Client IP conflict detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:28:25.959399Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Client IP conflict detected\",\n  \"occurredAt\": \"2019-07-19T01:26:43.866000Z\",\n  \"alertData\": {\n    \"conflictingIp\": \"192.168.1.54\",\n    \"contendingMac\": \"00:00:00:44:44:44\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Client connected to another network",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T05:58:19.691981Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Client connected to another network\",\n  \"occurredAt\": \"2018-08-18T05:06:15.619000Z\",\n  \"alertData\": {\n    \"mac\": \"00:00:00:33:33:33\",\n    \"foreignBssid\": \"E2:55:7D:26:09:C0\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Client connectivity changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T00:01:43.134285Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Client connectivity changed\",\n  \"occurredAt\": \"2019-07-18T23:25:13.282000Z\",\n  \"alertData\": {\n    \"mac\": \"00:00:00:33:33:33\",\n    \"ip\": \"169.254.29.226\",\n    \"connected\": \"true\",\n    \"clientName\": \"The machine\",\n    \"clientUrl\": \"https://n27.meraki.com/Main-Branch-appl/n/_rRjabB/manage/usage/list#c=kc145f5\"\n  },\n  \"clientUrl\": \"https://n1.meraki.com//n//manage/usage/list#c=kc00000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients are compliant with their security policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:49:55.108282Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients are compliant with their security policy\",\n  \"occurredAt\": \"2019-07-19T06:58:45.716715Z\",\n  \"alertData\": {\n    \"pccSecurityPolicyId\": 578149602163687700,\n    \"pccSecurityAlertConfigId\": 578149602163687400\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients are violating their security policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:39:58.388614Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients are violating their security policy\",\n  \"occurredAt\": \"2019-07-19T07:14:18.944611Z\",\n  \"alertData\": {\n    \"pccSecurityPolicyId\": 578149602163687700,\n    \"pccSecurityAlertConfigId\": 578149602163687400\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients came up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:39:06.283616Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients came up\",\n  \"occurredAt\": \"2019-07-18T16:31:20.000000Z\",\n  \"alertData\": {},\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients failing to connect",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:48:09.532056Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients failing to connect\",\n  \"occurredAt\": \"2019-07-10T07:25:29.152143Z\",\n  \"alertData\": {\n    \"dhcp\": 1,\n    \"totalConnectionAttempts\": 1,\n    \"ssidNum\": 2,\n    \"threshold\": 50,\n    \"failureType\": \"dhcp\",\n    \"lookbackWindow\": 900,\n    \"ssidName\": \"meraki-psk\",\n    \"worstApSerial\": \"YYYY-YYYY-YYYY\",\n    \"numAffectedClients\": 1,\n    \"totalUniqueClients\": 1,\n    \"failureRate\": 100\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients have enrolled in one of your networks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:35:14.330903Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients have enrolled in one of your networks\",\n  \"occurredAt\": \"2019-07-18T16:00:08.240898Z\",\n  \"alertData\": {\n    \"deviceId\": \"0000000000000000\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients have re-entered their geofenced area",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:25:37.221563Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients have re-entered their geofenced area\",\n  \"occurredAt\": \"2019-07-18T18:28:10.124169Z\",\n  \"alertData\": {},\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients have violated their geofencing policy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:27:06.787363Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients have violated their geofencing policy\",\n  \"occurredAt\": \"2019-07-19T01:26:11.197567Z\",\n  \"alertData\": {},\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clients went down",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:36:25.726645Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Clients went down\",\n  \"occurredAt\": \"2019-07-18T23:59:00.000000Z\",\n  \"alertData\": {},\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DHCP leases exhausted",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T00:47:44.161980Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"DHCP leases exhausted\",\n  \"occurredAt\": \"2019-07-18T21:41:26.324000Z\",\n  \"alertData\": {\n    \"network\": \"192.168.1.0/24'192.168.1.254\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Devices operating at critical temperature",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:24:10.306449Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Devices operating at critical temperature\",\n  \"occurredAt\": \"2019-07-19T06:23:30.216000Z\",\n  \"alertData\": {\n    \"temperature\": \"Critical Level\",\n    \"action\": \"Shutdown\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Failover event detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:51:37.412365Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Failover event detected\",\n  \"occurredAt\": \"2019-07-19T05:55:20.524000Z\",\n  \"alertData\": {\n    \"oldIfUp\": \"0\",\n    \"oldMode\": \"detect\",\n    \"oldPrio\": \"75\",\n    \"electorState\": \"master\",\n    \"mode\": \"detect\",\n    \"prio\": \"75\",\n    \"ifUp\": \"1\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gateway to repeater",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:23:50.961355Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Gateway to repeater\",\n  \"occurredAt\": \"2019-07-15T13:55:35.000000Z\",\n  \"alertData\": {}\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MDM certificate will expire soon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:27:22.124099Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"MDM certificate will expire soon\",\n  \"occurredAt\": \"2017-07-13T09:00:20.658172Z\",\n  \"alertData\": {\n    \"expiry\": \"2017-07-19T23:41:03Z\",\n    \"organizationId\": 274968,\n    \"topic\": \"com.apple.mgmt.External.e9908a35-405d-4b25-b513-fa55431d1374\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Malware download blocked",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T22:59:22.887526Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Malware download blocked\",\n  \"occurredAt\": \"2019-07-18T15:22:53.177000Z\",\n  \"alertData\": {}\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Malware download detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-18T22:59:55.022619Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Malware download detected\",\n  \"occurredAt\": \"2019-07-18T15:29:30.270000Z\",\n  \"alertData\": {\n    \"eventType\": \"amp_malware_detected\",\n    \"sha256\": \"ddcb8f357d86d11dfa3409f71a966e5076240445ca9825fb72e7386efc5582e4\",\n    \"disposition\": 3\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Matching software installations found",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:42:05.851295Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Matching software installations found\",\n  \"occurredAt\": \"2019-07-18T07:05:06.271200Z\",\n  \"alertData\": {\n    \"swFoundRegex\": \".*\",\n    \"installs\": [\n      {\n        \"swName\": \"TrackAbout\",\n        \"swVendor\": \"iTunes Store\",\n        \"pccName\": \"Miles Meraki iPhone\",\n        \"swVersion\": \"7.313.132\",\n        \"swInstallDate\": \"2019-07-17\"\n      }\n    ]\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Meraki Management profile removed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:43:49.609341Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Meraki Management profile removed\",\n  \"occurredAt\": \"2019-07-18T13:41:52.253465Z\",\n  \"alertData\": {\n    \"pccName\": \"PScheck iPhone\",\n    \"wifiMac\": \"cc:2d:b7:46:ba:e8\",\n    \"serialNumber\": \"FK2VLMSHJCL6\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Motion detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:31:10.950753Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Motion detected\",\n  \"occurredAt\": \"2019-07-19T01:24:39.546999Z\",\n  \"alertData\": {\n    \"timestamp\": 1563499479.547,\n    \"roi\": {\n      \"top\": 0,\n      \"left\": 16,\n      \"width\": 40,\n      \"height\": 19\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Network usage alert",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:37:55.378471Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Network usage alert\",\n  \"occurredAt\": \"2019-07-19T06:20:00.000000Z\",\n  \"alertData\": {\n    \"usageThreshold\": 104857600,\n    \"kbTotal\": 115892215,\n    \"period\": 1200\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New DHCP server detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T00:45:47.232115Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"New DHCP server detected\",\n  \"occurredAt\": \"2019-07-19T00:09:17.099000Z\",\n  \"alertData\": {\n    \"mac\": \"00:00:00:33:33:33\",\n    \"ip\": \"10.197.134.2\",\n    \"vlan\": 104,\n    \"subnet\": \"10.197.132.0/24\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New splash user registered",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:32:39.418250Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"New splash user registered\",\n  \"occurredAt\": \"2019-07-18T19:47:00.929194Z\",\n  \"alertData\": {\n    \"userEmail\": \"Miles@Meraki.com\",\n    \"userName\": \"MMiles\",\n    \"ssidId\": 578149602173701900\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Power supply came up",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:53:47.140469Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Power supply came up\",\n  \"occurredAt\": \"2019-07-18T03:55:01.480000Z\",\n  \"alertData\": {\n    \"num\": 2\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Power supply went down",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:52:43.212176Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Power supply went down\",\n  \"occurredAt\": \"2019-07-18T03:50:28.344000Z\",\n  \"alertData\": {\n    \"num\": 2\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RADIUS authentication server unreachable",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:18:35.995242Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"RADIUS authentication server unreachable\",\n  \"occurredAt\": \"2019-07-19T04:16:59.104086Z\",\n  \"alertData\": {\n    \"shardId\": 207,\n    \"isSpare\": true,\n    \"machineIp\": \"209.206.57.40\",\n    \"ssid\": \"Guest XXXX Meraki\",\n    \"srvIp\": \"rad1.merakimiles.net\",\n    \"port\": 1812\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Returned to using primary power",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:13:36.278239Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Returned to using primary power\",\n  \"occurredAt\": \"2019-06-05T19:32:13.016000Z\",\n  \"alertData\": {\n    \"num\": 0\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rogue AP detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T05:41:27.939986Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Rogue AP detected\",\n  \"occurredAt\": \"2011-06-07T01:19:47.432747Z\",\n  \"alertData\": {\n    \"rssi\": 1126462856796059000\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rogue DHCP server detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:04:11.110859Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Rogue DHCP server detected\",\n  \"occurredAt\": \"2019-07-19T01:30:40.382000Z\",\n  \"alertData\": {\n    \"eth\": \"bb:bb:bb:11:11:11\",\n    \"ip\": \"10.20.2.62\",\n    \"subnet\": \"0.0.0.0/0\",\n    \"vlan\": \"3\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Running on backup power",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:10:01.707366Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Running on backup power\",\n  \"occurredAt\": \"2019-06-25T14:59:57.928000Z\",\n  \"alertData\": {\n    \"num\": 0\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Settings changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:20:39.656975Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Settings changed\",\n  \"occurredAt\": \"2019-07-19T06:15:33.504142Z\",\n  \"alertData\": {\n    \"name\": \"Routing and DHCP\",\n    \"url\": \"/manage/configure/switch_l3\",\n    \"changes\": {\n      \"createStaticRoute\": {\n        \"label\": \"Added static route on SP-Warehouse\",\n        \"newText\": \"10.10.10.0/24 -> 172.16.254.253\",\n        \"changedBy\": \"Miles Meraki (Miles@Meraki.com)\",\n        \"oldText\": \"\",\n        \"ssidId\": null\n      }\n    },\n    \"userId\": 578149602163763500\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Switch port connected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:48:50.299151Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Switch port connected\",\n  \"occurredAt\": \"2019-07-19T00:29:02.000000Z\",\n  \"alertData\": {\n    \"portNum\": 24,\n    \"description\": \"\",\n    \"status\": 18,\n    \"prevStatus\": 0,\n    \"portDesc\": \"Corp Access\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Switch port disconnected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:47:05.487862Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Switch port disconnected\",\n  \"occurredAt\": \"2019-07-19T01:26:13.000000Z\",\n  \"alertData\": {\n    \"portNum\": 21,\n    \"description\": \"\",\n    \"status\": 0,\n    \"prevStatus\": 18,\n    \"portDesc\": \"Corp Access\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Switch port link speed changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:51:05.552209Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Switch port link speed changed\",\n  \"occurredAt\": \"2019-07-19T01:19:52.000000Z\",\n  \"alertData\": {\n    \"portNum\": 10,\n    \"description\": \"10 Mbps to 1 Gbps\",\n    \"status\": 19,\n    \"prevStatus\": 17,\n    \"portDesc\": \"Corp Access\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UDLD error",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:26:25.538598Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"UDLD error\",\n  \"occurredAt\": \"2019-07-18T18:40:25.914000Z\",\n  \"alertData\": {\n    \"errorType\": \"Unidirectional link (outbound fault)\",\n    \"action\": \"none\",\n    \"port\": {\n      \"port\": 52,\n      \"moduleSlot\": 0,\n      \"modulePid\": \"\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPS output source changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:35:57.175285Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"UPS output source changed\",\n  \"occurredAt\": \"2019-06-19T17:53:44.120000Z\",\n  \"alertData\": {\n    \"old\": \"battery\",\n    \"new\": \"normal\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unreachable devices detected",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T07:51:55.326242Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Unreachable devices detected\",\n  \"occurredAt\": \"2019-07-18T21:11:51.987690Z\",\n  \"alertData\": {\n    \"failingNodes\": \"Inside AP\\nRecycle Shed AP\"\n  },\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\"\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Uplink status changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T01:02:34.397815Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"Uplink status changed\",\n  \"occurredAt\": \"2019-07-19T01:02:01.543000Z\",\n  \"alertData\": {\n    \"uplink\": \"0\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VPN connectivity changed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"version\": \"0.1\",\n  \"sharedSecret\": \"foo\",\n  \"sentAt\": \"2019-07-19T06:48:28.731383Z\",\n  \"organizationId\": \"00000001\",\n  \"organizationName\": \"Miles Monitoring Inc.\",\n  \"organizationUrl\": \"https://n1.meraki.com/o//manage/organization/overview\",\n  \"networkId\": \"N_111111111111\",\n  \"networkName\": \"Main Office\",\n  \"networkUrl\": \"https://n1.meraki.com//n//manage/nodes/list\",\n  \"deviceSerial\": \"XXXX-XXXX-XXXX\",\n  \"deviceMac\": \"00:00:00:aa:bb:cc\",\n  \"deviceName\": \"Device Foo Bar\",\n  \"deviceUrl\": \"https://n1.meraki.com//n//manage/nodes/new_list/000000000000\",\n  \"alertId\": \"0000000000000000\",\n  \"alertType\": \"VPN connectivity changed\",\n  \"occurredAt\": \"2019-07-19T06:19:23.606000Z\",\n  \"alertData\": {\n    \"vpnType\": \"l2tpv3\",\n    \"vap\": \"1\",\n    \"onSecondary\": \"false\",\n    \"secondaryEndpoint\": \"0.0.0.0\",\n    \"primaryEndpoint\": \"1.1.1.1\",\n    \"connectivity\": \"true\"\n  }\n}"
+				},
+				"url": {
+					"raw": "{{webhook-url}}",
+					"host": [
+						"{{webhook-url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
