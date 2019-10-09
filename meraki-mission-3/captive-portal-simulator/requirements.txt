@@ -7,3 +7,6 @@ pywebview==3.0.2
 requests==2.22.0
 requests-toolbelt==0.9.1
 webexteamssdk==1.2
+pycairo==1.18.1
+PyGObject==3.34.0
+PyJWT=1.7.1
