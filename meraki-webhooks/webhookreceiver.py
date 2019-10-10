@@ -1,5 +1,3 @@
-#!flask/bin/python
-
 """Set the Environment Information Needed to Access Your Lab!
 
 The provided sample code in this repository will reference this file to get the
