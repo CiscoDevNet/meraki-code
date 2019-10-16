@@ -1,92 +1,109 @@
-"""
-Cisco Meraki Captive Portal simulator
+#!/usr/bin/env python
+"""Cisco Meraki Cloud Simulator for External Captive Portal labs."""
 
-Default port: 5003
-
-Matt DeNapoli
-
-2018
-
-https://developer.cisco.com/site/Meraki
-"""
-
-# Libraries
-from flask import Flask, request, render_template, redirect, url_for, Response
 import random
 from datetime import datetime
-import time
-import requests
-import webview
-import netifaces as nif
-import threading
-import json
+
+from flask import abort, Flask, jsonify, redirect, render_template, request
+
+
+# Module Constants & Simulated Cloud Data
+WEB_SERVER_HOSTNAME = "localhost"
+WEB_SERVER_BIND_IP = "0.0.0.0"
+WEB_SERVER_BIND_PORT = 5003
+
+ORGANIZATIONS = [{"id": "1234567", "name": "Simulated Organization"}]
+
+# Networks indexed by organization ID.
+NETWORKS = {
+    "1234567": [
+        {
+            "id": "L_12345678910",
+            "organizationId": "1234567",
+            "name": "Simulated Network",
+            "timeZone": "America/New_York",
+            "tags": "",
+            "productTypes": ["appliance", "switch", "wireless"],
+            "type": "combined",
+            "disableMyMerakiCom": False,
+            "disableRemoteStatusPage": True,
+        },
+    ]
+}
+
+
+# Module Variables
+captive_portal_url = ""
+user_continue_url = ""
+window = ""
+splash_logins = []
 
 app = Flask(__name__)
 
-# Globals
-global captive_portal_url
-captive_portal_url = ""
-global user_continue_url
-user_continue_url = ""
-global window
-window = ""
-global splash_logins
-splash_logins = []
 
+# Helper Functions
+def generate_fake_mac():
+    """Generate a fake MAC address."""
+    hex_characters = "0123456789abcdef"
+
+    def random_byte():
+        """Generate a random byte."""
+        return random.choice(hex_characters) + random.choice(hex_characters)
+
+    return ":".join(random_byte() for _ in range(6))
+
+
+# Flask micro-webservice API/URI endpoints
 @app.route("/organizations", methods=["GET"])
 def get_org_id():
-    resp = Response(response=json.dumps([
-    {
-        "id": "1234567",
-        "name": "Simulated Organization"
-    }]), headers={"Content-type":"application/json"} )
-    return resp
+    """Get a list of simulated organizations."""
+    return jsonify(ORGANIZATIONS)
 
-@app.route("/organizations/1234567/networks", methods=["GET"])
-def get_network_id():
-    resp = Response(response=json.dumps([
-    {
-        "id": "L_12345678910",
-        "organizationId": "1234567",
-        "name": "Simulated Network",
-        "timeZone": "America/New_York",
-        "tags": "",
-        "productTypes": [
-            "appliance",
-            "switch",
-            "wireless"
-        ],
-        "type": "combined",
-        "disableMyMerakiCom": False,
-        "disableRemoteStatusPage": True
-    }
-    ]), headers={"Content-type":"application/json"} )
-    return resp
 
-@app.route("/networks/L_12345678910/ssids/0", methods=["PUT"])
-def put_ssid():
-    resp = Response(response=json.dumps(request.json), headers={"Content-type":"application/json"} )
-    return resp
+@app.route("/organizations/<organization_id>/networks", methods=["GET"])
+def get_networks(organization_id):
+    """Get the list of networks for an organization."""
+    organization_networks = NETWORKS.get(organization_id)
+    if organization_networks:
+        return jsonify(organization_networks)
+    else:
+        abort(404)
 
-@app.route("/networks/L_12345678910/ssids/0/splashSettings", methods=["PUT"])
-def put_splash():
-    resp = Response(response=json.dumps(request.json), headers={"Content-type":"application/json"} )
-    return resp
 
-@app.route("/networks/L_12345678910/splashLoginAttempts", methods=["GET"])
-def get_splash_logins():
-    global splash_logins
+@app.route("/networks/<network_id>/ssids/<ssid_id>", methods=["PUT"])
+def put_ssid(network_id, ssid_id):
+    """Simulate setting SSID configurations."""
+    print(f"Settings updated for network {network_id} ssid {ssid_id}.")
+    return jsonify(request.json)
 
-    resp = Response(response=json.dumps(splash_logins), headers={"Content-type":"application/json"} )
-    return resp
+
+@app.route(
+    "/networks/<network_id>/ssids/<ssid_id>/splashSettings",
+    methods=["PUT"],
+)
+def put_splash(network_id, ssid_id):
+    """Simulate setting Splash Page configurations."""
+    print(f"Splash settings updated for network {network_id} ssid {ssid_id}.")
+    return jsonify(request.json)
+
+
+@app.route("/networks/<network_id>/splashLoginAttempts", methods=["GET"])
+def get_splash_logins(network_id):
+    """Get list of Splash Page logins."""
+    # We aren't associating specific logins with a network ID
+    _ = network_id
+    return jsonify(splash_logins)
+
 
 @app.route("/go", methods=["GET"])
 def get_go():
-    return render_template("index.html", **locals())
+    """Process GET requests to the /go URI; render the index.html page."""
+    return render_template("index.html")
 
-# Kick off simulator and create baseline dataset
+
 @app.route("/connecttowifi", methods=["POST"])
 def connect_to_wifi():
+    """Save captive portal details; redirect to the External Captive Portal."""
     global captive_portal_url
     global user_continue_url
     global splash_logins
@@ -97,59 +114,46 @@ def connect_to_wifi():
     node_mac = generate_fake_mac()
     client_ip = request.remote_addr
     client_mac = generate_fake_mac()
-    splashclick_time = datetime.now()
-    splashclick_time = datetime.timestamp(splashclick_time)
-    full_url = captive_portal_url + \
-    "?base_grant_url=" + base_grant_url + \
-    "&user_continue_url=" + user_continue_url + \
-    "&node_mac=" + node_mac + \
-    "&client_ip=" + client_ip + \
-    "&client_mac=" + client_mac
-    window.load_url(full_url)
+    splash_click_time = datetime.utcnow().isoformat()
+    full_url = (
+        captive_portal_url
+        + "?base_grant_url=" + base_grant_url
+        + "&user_continue_url=" + user_continue_url
+        + "&node_mac=" + node_mac
+        + "&client_ip=" + client_ip
+        + "&client_mac=" + client_mac
+    )
 
-    splash_logins.append({
+    splash_logins.append(
+        {
             "name": "Simulated Client",
             "login": "simulatedclient@meraki.com",
             "ssid": "Simulated SSID",
-            "loginAt": splashclick_time,
+            "loginAt": splash_click_time,
             "gatewayDeviceMac": node_mac,
             "clientMac": client_mac,
             "clientId": client_ip,
-            "authorization": "success"
-        })
+            "authorization": "success",
+        }
+    )
 
-    return render_template("connected.html", full_url=full_url)
+    return redirect(full_url, code=302)
+
 
 @app.route("/splash/grant", methods=["GET"])
 def continue_to_url():
+    """Accept captive portal click-through; redirect to the continue URL."""
     return redirect(request.args.get("continue_url"), code=302)
 
-def generate_fake_mac():
-    fake_mac = ""
-    for mac_part in range(6):
-        fake_mac += "".join(
-            random.choice("0123456789abcdef") for i in range(2)
-        )
-        if mac_part < 5:
-            fake_mac += ":"
-
-    return fake_mac
-
-@app.route("/setupserver", methods=["GET"])
-def setupserver():
-    return render_template("setupserver.html", serversetupurl=request.host_url
-    + "go")
-
-def start_server():
-    app.run(host="0.0.0.0", threaded=True, port=5003, debug=False)
 
 if __name__ == "__main__":
-    t = threading.Thread(target = start_server)
-    t.dameon = True
-    t.start()
+    print(
+        f"\n>>> "
+        f"Open your browser and browse to "
+        f"http://{WEB_SERVER_HOSTNAME}:{WEB_SERVER_BIND_PORT}/go "
+        f"to configure the captive portal and simulate a client login."
+        f" <<<\n"
+    )
 
-    window = webview.create_window("Captive Portal", "http://localhost:5003/setupserver",
-    js_api=None, width=800, height=600, resizable=True, fullscreen=False,
-    min_size=(200, 100), confirm_close=False,
-    background_color='#FFF', text_select=True)
-    webview.start()
+    # Start the web server
+    app.run(host=WEB_SERVER_BIND_IP, port=WEB_SERVER_BIND_PORT, debug=False)
