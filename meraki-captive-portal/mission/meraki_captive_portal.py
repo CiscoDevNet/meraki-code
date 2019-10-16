@@ -39,7 +39,7 @@ import env_user  # noqa
 # WEBEX TEAMS LIBRARY
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
-# MERAKI BASE URL 
+# MERAKI BASE URL
 base_url = "https://api.meraki.com/api/v0"
 
 # Flask App
@@ -70,8 +70,8 @@ def get_click():
     success_url = host + "success"
 
     return render_template("click.html", client_ip=client_ip,
-    client_mac=client_mac, node_mac=node_mac,
-    user_continue_url=user_continue_url,success_url=success_url)
+                           client_mac=client_mac, node_mac=node_mac,
+                           user_continue_url=user_continue_url, success_url=success_url)
 
 
 @app.route("/login", methods=["POST"])
@@ -103,12 +103,12 @@ def get_success():
         text="Splash Login Attempt: " + json.dumps(json.loads(splash_logins.text)[-1])
     )
 
-    return render_template("success.html",user_continue_url=user_continue_url)
+    return render_template("success.html", user_continue_url=user_continue_url)
 
 
 # Get Network ID based on Network name entry
 def get_network_id(network_wh):
-    global network_id 
+    global network_id
 
     orgs = ""
 
@@ -233,7 +233,7 @@ def main(argv):
 
 if __name__ == "__main__":
     args = main(sys.argv[1:])
-    
+
     # Comment out the following line if uncommenting the below block
     url = "http://localhost:5004"
 
