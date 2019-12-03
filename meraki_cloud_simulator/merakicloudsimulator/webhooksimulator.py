@@ -136,9 +136,9 @@ def webhooksettings():
     global stop_post_thread
 
     if request.method == 'POST':
-        webhook_server_name = request.form["server_name"]
-        webhook_server_url  = request.form["server_url"]
-        webhook_shared_secret = request.form["shared_secret"]
+        webhook_server_name = request.form["server_name"].lstrip().rstrip()
+        webhook_server_url  = request.form["server_url"].lstrip().rstrip()
+        webhook_shared_secret = request.form["shared_secret"].lstrip().rstrip()
         webhook_default_destination = request.form.getlist("default_destination")
         
         if webhook_shared_secret != "" and webhook_server_name != "" and webhook_server_url != "":
