@@ -20,7 +20,7 @@
     <div id="content">
       <h1>Meraki Location Scanning Data Simulator</h1>
 
-      <form method="POST" action="/locationscanning">
+      <form method="POST" action="/locationscanning/set">
         Number of APs: <input name="num_aps" type="number" placeholder="Enter Integer" value="{{ num_aps }}">
         Number of Clients: <input name="num_clients" type="number" placeholder="Enter Integer" value="{{ num_clients }}">
         Enter Server URL: <input name="server_url" type="text" placeholder="Fully Qualified URL" value="{{ server_url }}">
@@ -34,7 +34,6 @@
              async defer></script>
 
     <div id="content">
-    <p>Location Data: {{ running }}</p>
     </div>
   </body>
 </html>
