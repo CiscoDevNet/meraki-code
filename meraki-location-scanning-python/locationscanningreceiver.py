@@ -3,28 +3,25 @@
 """
 Cisco Meraki Location Scanning Receiver
 
-A simple example demonstrating how to interact with the CMX API.
-
-How it works:
-- Meraki access points will listen for WiFi clients that are searching for a network to join and log the events.
-- The "observations" are then collected temporarily in the cloud where additional information can be added to
-the event, such as GPS, X Y coordinates and additional client details.
-- Meraki will first send a GET request to this CMX receiver, which expects to receieve a "validator" key that matches
-the Meraki network's validator.
-- Meraki will then send a JSON message to this application's POST URL (i.e. http://yourserver/ method=[POST])
-- The JSON is checked to ensure it matches the expected secret, version and observation device type.
-- The resulting data is sent to the "save_data(data)" function where it can be sent to a databse or other service
-    - This example will simply print the CMX data to the console.
-
-Default port: 5000
-
-Cisco Meraki CMX Documentation
-https://documentation.meraki.com/MR/Monitoring_and_Reporting/CMX_Analytics#CMX_Location_API
-
-Written by Cory Guynn
-2016
-
-www.InternetOfLEGO.com
+The provided sample code in this repository will reference this file to get the
+information needed to connect to your lab backend.  You provide this info here
+once and the scripts in this repository will access it as needed by the lab.
+Copyright (c) 2019 Cisco and/or its affiliates.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
 # Libraries
@@ -40,7 +37,7 @@ import json
 # MERAKI SETTINGS
 validator = "EnterYourValidator"
 secret = "EnterYourSecret"
-version = "2.0"  # This code was written to support the CMX JSON version specified
+version = "2.0" 
 locationdata = "Location Data Holder"
 ####################################################
 app = Flask(__name__)
