@@ -91,7 +91,7 @@ def post_httpServers(network_id):
             new_server["id"] = generate_fake_http_server_id()
             new_server["networkId"] = network_id
             http_servers.append(new_server)
-            return jsonify(new_server)
+            return jsonify(new_server), 201
         else:
             abort(400)
     except Exception as e:

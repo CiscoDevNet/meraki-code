@@ -208,6 +208,7 @@ def main(argv):
 if __name__ == "__main__":
     args = main(sys.argv[1:])
 
+    '''
     # Code to get ngrok tunnel info so we don't have to set it manually
     # This will set our "url" value to be passed to the webhook setup
     tunnels = requests.request("GET", \
@@ -221,6 +222,8 @@ if __name__ == "__main__":
     for tunnel in tunnels:
         if tunnel['proto'] == 'https':
             url = tunnel['public_url']
+    '''
+    url = "http://localhost:5005"
 
     # Configuration parameters
     network_id = get_network_id(args[0])
