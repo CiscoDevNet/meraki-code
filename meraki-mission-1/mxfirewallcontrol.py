@@ -114,6 +114,7 @@ def createbackup(networks):
         try:
             os.makedirs(directory)
         except Exception as e:
+            print(e)
             flag_noerrors = False
         if flag_noerrors:
             flag_creationfailed = False
@@ -151,7 +152,7 @@ def createbackup(networks):
                 try:
                     f.close()
                 except Exception as e:
-                    pprint(
+                    pprintusertext(
                         "Unable to close file path: " + filepath
                     )
                     sys.exit(2)
