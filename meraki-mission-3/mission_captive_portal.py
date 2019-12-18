@@ -43,7 +43,7 @@ import env_user  # noqa
 
 
 # Module Variables
-meraki_dashboard_api_base_url = "http://localhost:5001"  # Using lab simulator
+base_url = "http://localhost:5001"  # Using lab simulator
 captive_portal_base_url = "http://localhost:5004"
 base_grant_url = ""
 user_continue_url = ""
@@ -64,8 +64,7 @@ def get_network_id(network_name):
     # Retrieve the list of organizations accessible to your API token
     # MISSION TODO
     response = requests.get(
-        # TODO: Add the API endpoint path to get the list of organizations
-        meraki_dashboard_api_base_url + "MISSION",
+        base_url + "TODO:ADD URL TO GET ORGANIZATION LIST HERE",
         headers={"X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY}
     )
     # END MISSION SECTION
@@ -81,7 +80,7 @@ def get_network_id(network_name):
         response = requests.get(
             # TODO: Add the API endpoint path to get the list of networks
             # (don't forget to add the organization ID)
-            meraki_dashboard_api_base_url + "MISSION",
+            base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",,
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
@@ -106,7 +105,7 @@ def set_splash_page_settings(network_id, captive_portal_base_url):
     response = requests.put(
         # TODO: Add the API endpoint path to set the splash page settings
         # (don't forget to add the network ID)
-        meraki_dashboard_api_base_url + "MISSION",
+        base_url + "TODO:Add the API endpoint path to set the splash page settings (don't forget to add the network ID)",
         headers={
             "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             "Content-Type": "application/json",
@@ -127,7 +126,7 @@ def set_ssid_settings(network_id, wireless_name, wireless_password):
     response = requests.put(
         # TODO: Add the API endpoint path to set SSID settings
         # (don't forget to add the network ID)
-        meraki_dashboard_api_base_url + "MISSION",
+        base_url + "TODO: Add the API endpoint path to set SSID settings (don't forget to add the network ID)",
         headers={
             "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             "Content-Type": "application/json"
@@ -195,7 +194,7 @@ def get_success():
     # MISSION TODO
     response = requests.get(
         # TODO: Add the API endpoint path to get splash page login attempts
-        meraki_dashboard_api_base_url + "MISSION",
+        base_url + "TODO: Add the API endpoint path to get splash page login attempts",
         headers={
             "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             "Content-Type": "application/json"
