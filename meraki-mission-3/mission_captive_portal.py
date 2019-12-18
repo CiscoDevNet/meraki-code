@@ -204,16 +204,14 @@ def get_success():
     response.raise_for_status()
 
     # Parse JSON Data
-    splash_logins = response.json()
+    splash_logins = response.text
+    splash_logins = json.loads(splash_logins)
+    splash_logins = "```json " + json.dumps(splash_logins, indent=2)
 
     # Send Message to WebEx Teams
     teams_api.messages.create(
         env_user.WT_ROOM_ID,
-        markdown=f"""Splash Login Attempt:
-        ```json
-        {json.dumps(splash_logins, indent=2)}
-        ```
-        """
+        markdown="Splash Login Attempts:\n" + splash_logins
     )
 
     return render_template(
