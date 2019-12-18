@@ -80,7 +80,7 @@ def get_network_id(network_name):
         response = requests.get(
             # TODO: Add the API endpoint path to get the list of networks
             # (don't forget to add the organization ID)
-            base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",,
+            base_url + "TODO:ADD URL TO GET NETWORK LIST HERE (be sure to add organization id to the string)",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
