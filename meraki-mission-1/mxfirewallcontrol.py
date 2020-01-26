@@ -130,7 +130,7 @@ def createbackup(networks):
     for network in networks:
         rules = get_mx_l3_firewall_rules(network["id"])
         if rules != "":
-            filename = network["id"] + ".txt"
+            filename = network["id"] + ".json"
             filepath = directory + "/" + filename
             if os.path.exists(filepath):
                 pprint(
