@@ -121,16 +121,17 @@ def notify(serial_number):
 
     # querystring = {"timestamp": ts}
 
+    print(url)
     headers = {
         'X-Cisco-Meraki-API-Key': env_user.MERAKI_API_KEY,
         "Content-Type": "application/json"
     }
-    resp = requests.request("GET", url, headers=headers)
+    resp = requests.request("POST", url, headers=headers, json={})
 
     print(resp.text)
-    if int(resp.status_code) == 200:
+    if int(resp.status_code) == 202:
         print("trigger alert")
-        msg = "An alert triggered.  \n Video : {}".format(resp.json().get("url"))
+        msg = "An alert triggered.  \n Snapshot : {}".format(resp.json().get("url"))
 
         # Send Message to WebEx Teams
         teamsapi.messages.create(
