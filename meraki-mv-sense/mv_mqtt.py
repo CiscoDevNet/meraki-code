@@ -114,18 +114,18 @@ def collect_zone_information(topic, payload):
 
 def notify(serial_number):
     # Get video link
-    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/videoLink".format(serial_number, NETWORK_ID)
+    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/snapshot".format(serial_number, NETWORK_ID)
 
     # current timestamp
-    ts = str(time.time()).split(".")[0] + "000"
+    # ts = str(time.time()).split(".")[0] + "000"
 
-    querystring = {"timestamp": ts}
+    # querystring = {"timestamp": ts}
 
     headers = {
         'X-Cisco-Meraki-API-Key': env_user.MERAKI_API_KEY,
         "Content-Type": "application/json"
     }
-    resp = requests.request("GET", url, headers=headers, params=querystring)
+    resp = requests.request("GET", url, headers=headers)
 
     print(resp.text)
     if int(resp.status_code) == 200:
