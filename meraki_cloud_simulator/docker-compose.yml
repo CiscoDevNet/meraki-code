@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  meraki_cloud_simulator:
+   build: .
+   restart: on-failure
+   container_name: meraki_cloud_simulator
+   ports:
+    - "5001:5001"
+   volumes:
+    - .:/meraki_cloud_simulator
+   env_file:
+    - wt_vars.env
+
+  meraki-sample-location-scanning-receiver:
+   build: ./meraki-sample-location-scanning-receiver
+   restart: on-failure
+   container_name: meraki-sample-location-scanning-receiver
+   ports:
+    - "5002:5002"
+   volumes:
+    - .:/meraki-sample-location-scanning-receiver
+   env_file:
+    - wt_vars.env
+   depends_on: 
+    - meraki_cloud_simulator
+
+  meraki-sample-webhook-receiver:
+   build: ./meraki-sample-webhook-receiver
+   restart: on-failure
+   container_name: meraki-sample-webhook-receiver
+   ports:
+    - "5005:5005"
+   volumes:
+    - .:/meraki-sample-webhook-receiver    
+   env_file:
+    - wt_vars.env
+   depends_on: 
+    - meraki_cloud_simulator
+
+  meraki-sample-captive-portal:
+   build: ./meraki-sample-captive-portal
+   restart: on-failure
+   container_name: meraki-captive-portal
+   ports:
+    - "5004:5004"
+   volumes:
+    - .:/meraki-sample-captive-portal
+   env_file:
+    - wt_vars.env
+   depends_on: 
+    - meraki_cloud_simulator

@@ -289,5 +289,3 @@ def post_json(ap):
 
     requests.post(server_url, json=ap_data[ap])  # post to listener
     print(ap_data[ap])
-
-
