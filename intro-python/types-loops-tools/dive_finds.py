@@ -66,7 +66,7 @@ def main():
     """Explain the scuba diver game in a command prompt."""
     print("You're a scuba diver, let's see what you find on your dives today!")
 
-    # Prompt the user for how many lucky numbers they would like
+    # Prompt the user for how many dives they are going on
     number_dives = input("How many dives are you taking today?  ")
     number_dives = int(number_dives.strip())
 
