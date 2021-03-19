@@ -28,9 +28,9 @@ import random
 
 
 DIVEFINDS = [
-    "Engagement rings and class rings",
-    "Completely ruined iPhones",
-    "Rolex and Timex watches",
+    "engagement rings 💍 and other rings ",
+    "completely ruined mobile phones 📱",
+    "⌚ Apple, Rolex, and Timex watches",
 ]
 
 
@@ -39,21 +39,21 @@ def generate_find() -> str:
     return random.choice(DIVEFINDS)
 
 
-def generate_number_items(how_many: int) -> list:
-    """Returns a list of random amounts of found objects."""
-    dive_items = []
-    for _ in range(how_many):
-        dive_items.append(random.randint(2, 25))
+def calculate_number_items(number_dives):
+    """Returns the multiplier for the random amounts of found objects."""
+    how_many = random.randint(1, 15)
+    dive_items = how_many * number_dives
+    
     return dive_items
 
 
-def create_dive_finds(generate_number_items: int) -> str:
+def create_dive_finds(number_dives):
     """Make and return the items the scuba diver finds in this dive.
 
-    The message should include the diver's find and lucky numbers.
+    The message should include the diver's find and amounts.
     """
-    # TODO: Create a message telling the diver what they found by 
-    # calling generate_find() and generate_lucky_numbers() and 
+    # TODO: Create a message telling a scuba diver what they found by 
+    # calling generate_find() and calculate_number_items() and 
     # then composing and returning the message and numbers.
 
     raise NotImplementedError()
@@ -63,7 +63,7 @@ def main():
     """Explain the scuba diver game in a command prompt."""
     print("You're a scuba diver, let's see what you find on your dives today!")
 
-    # Prompt the user for how many lucky numbers they would like
+    # Prompt the user for how many dives they are going on
     number_dives = input("How many dives are you taking today?  ")
     number_dives = int(number_dives.strip())
 
