@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-"""Shuffle six decks of cards using the Deck of Cards API
+"""Python Interpreter and Basics Exercise.
 
 Copyright (c) 2018-2021 Cisco and/or its affiliates.
 
@@ -23,18 +22,30 @@ SOFTWARE.
 """
 
 
-import requests
+import math
+import random
 
 
-url = "https://deckofcardsapi.com/api/deck/new/shuffle/"
-querystring = {"deck_count": "6"}
-headers = {
-   'Cache-Control': "no-cache",
-   'Postman-Token': "dd1d8ca5-7000-21b2-2230-39969d585419"
-   }
-response = requests.request("GET", url, headers=headers, params=querystring)
+# TODO: Write a print statement that displays both the type and value of `pi`
+pi = math.pi
 
-print(response.text)
-deck = response.json()
-deck_id = deck['deck_id']
-print(deck_id)
+
+# TODO: Write a conditional to print out if `i` is less than or greater than 50
+i = random.randint(0, 100)
+
+
+# TODO: Write a conditional that prints the color of the selected sportsball
+picked_sportsball = random.choice(['tennis', 'basketball', 'golf'])
+
+
+# TODO: Write a function that multiplies two numbers and returns the result
+# Define the function here.
+
+
+# TODO: Now call the function a few times to calculate the following answers
+
+print("12 x 96 =",)
+
+print("48 x 17 =",)
+
+print("196523 x 87323 =",)

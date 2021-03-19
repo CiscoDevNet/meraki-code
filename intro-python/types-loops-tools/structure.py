@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-"""Shuffle six decks of cards using the Deck of Cards API
+!/usr/bin/env python
+"""Module docstring.
 
 Copyright (c) 2018-2021 Cisco and/or its affiliates.
 
@@ -23,18 +23,32 @@ SOFTWARE.
 """
 
 
-import requests
+# Imports
+import os
+import sys
 
 
-url = "https://deckofcardsapi.com/api/deck/new/shuffle/"
-querystring = {"deck_count": "6"}
-headers = {
-   'Cache-Control': "no-cache",
-   'Postman-Token': "dd1d8ca5-7000-21b2-2230-39969d585419"
-   }
-response = requests.request("GET", url, headers=headers, params=querystring)
+# Module Constants
+START_MESSAGE = "CLI Inspection Script"
 
-print(response.text)
-deck = response.json()
-deck_id = deck['deck_id']
-print(deck_id)
+
+# Module "Global" Variables
+location = os.path.abspath(__file__)
+
+
+# Module Functions and Classes
+def main(*args):
+    """My main script function.
+
+    Displays the full patch to this script, and a list of the arguments passed
+    to the script.
+    """
+    print(START_MESSAGE)
+    print("Script Location:", location)
+    print("Arguments Passed:", args)
+
+
+# Check to see if this file is the "__main__" script being executed
+if __name__ == '__main__':
+    _, *script_args = sys.argv
+    main(*script_args)
