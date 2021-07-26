@@ -1,7 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """External Captive Portal Web Server."""
 
 from flask import Flask, redirect, render_template, request
+from waitress import serve
 
 
 # Module Variables
@@ -9,7 +10,7 @@ base_grant_url = ""
 user_continue_url = ""
 success_url = ""
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/5004/static')
 
 
 # Flask micro-webservice URI endpoints
@@ -27,6 +28,9 @@ def get_click():
     client_ip = request.args.get('client_ip')
     client_mac = request.args.get('client_mac')
     success_url = host + "success"
+
+    if base_grant_url != None and base_grant_url.startswith('http://'):
+        base_grant_url = base_grant_url.replace("http://", "https://", 1) #hack to run excap in LL2.0
 
     return render_template(
         "click.html",
@@ -58,4 +62,6 @@ def get_success():
 
 # If this script is the main script being executed, start the web server.
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5004, debug=False)
+    # app.run(host="0.0.0.0", port=5004, debug=True)
+    serve(app, host='0.0.0.0', port=5004, url_scheme='https')
+
