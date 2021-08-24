@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, jsonify, abort
 
-merakicloudsimulator = Flask(__name__)
+merakicloudsimulator = Flask(__name__, static_url_path='/5001/static')
 
 from merakicloudsimulator import meraki_settings
 from merakicloudsimulator import alert_settings

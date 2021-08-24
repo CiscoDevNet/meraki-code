@@ -49,7 +49,7 @@ def manage_location_streaming_thread(num_aps,map_bounds):
     global stop_location_thread
     global location_thread
 
-    if location_thread.isAlive():
+    if location_thread.is_alive():
         print("location thread already started, killing an restarting")
         stop_location_thread = True
         location_thread.join()
