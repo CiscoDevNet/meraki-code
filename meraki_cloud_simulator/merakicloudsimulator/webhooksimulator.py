@@ -115,7 +115,7 @@ def put_alert_settings(network_id):
 
     if destination_set and alert_set:
         print("destination set and alert set")
-        if not post_thread.isAlive():
+        if not post_thread.is_alive():
             print("posting thread not started, starting")
             post_thread.start() 
         else:

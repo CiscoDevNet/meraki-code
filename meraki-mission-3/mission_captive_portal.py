@@ -52,7 +52,7 @@ network_id = ""
 
 teams_api = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/5004/static')
 
 
 # Meraki Dashboard API helper functions

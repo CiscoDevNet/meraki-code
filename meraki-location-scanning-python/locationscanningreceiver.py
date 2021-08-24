@@ -40,7 +40,7 @@ secret = "EnterYourSecret"
 version = "2.0" 
 locationdata = "Location Data Holder"
 ####################################################
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/5002/static')
 
 
 # Respond to Meraki with validator
@@ -95,7 +95,7 @@ def get_locationJSON():
     return "Location Scanning POST Received"
 
 
-@app.route("/go", methods=["GET"])
+@app.route("/receive", methods=["GET"])
 def get_go():
     return render_template("index.html", **locals())
 
