@@ -46,7 +46,7 @@ def verify() -> bool:
     # Verify the Spark Room exists and is accessible via the access token
     try:
         r = requests.get(
-            "https://api.meraki.com/api/v0/organizations",
+            "https://api.meraki.com/api/v1/organizations",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                 "Content-Type": "application/json"
