@@ -94,7 +94,7 @@ def get_locationJSON():
     return "Location Scanning POST Received"
 
 
-@app.route("/go", methods=["GET"])
+@app.route("/receive", methods=["GET"])
 def get_go():
     return render_template("index.html", **locals())
 

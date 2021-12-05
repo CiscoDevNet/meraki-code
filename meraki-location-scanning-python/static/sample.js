@@ -8,10 +8,11 @@
     allMarkers = [],                            // The markers when we are in "View All" mode
     lastMac = "",                               // The last requested MAC to follow
     infoWindow = new google.maps.InfoWindow(),  // The marker tooltip
-    markerImage = new google.maps.MarkerImage('/static/blue_circle.png',
-      new google.maps.Size(15, 15),
-      new google.maps.Point(0, 0),
-      new google.maps.Point(4.5, 4.5));
+    markerImage = new google.maps.Marker({
+      icon: {
+      size: new google.maps.Size(15, 15),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(4.5, 4.5)}});
 
     MerakiOverlay.prototype = new google.maps.OverlayView();
 
