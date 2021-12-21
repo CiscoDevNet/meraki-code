@@ -47,7 +47,7 @@ NETWORK_ID = "NETWORK ID"
 CAMERA_SERIAL = "CAMERA SERIAL"
 
 # mqtt setting
-MQTT_SERVER = "mqtt.eclipse.org"
+MQTT_SERVER = "mqtt.eclipseprojects.io"
 MQTT_PORT = 1883
 MQTT_TOPIC = "/merakimv/"+ CAMERA_SERIAL + "/0"
 
