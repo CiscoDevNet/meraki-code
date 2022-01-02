@@ -24,7 +24,7 @@ def generate_fake_mac():
 
 
 # Flask micro-webservice API/URI endpoints
-@merakicloudsimulator.route("/networks/<network_id>/ssids/<ssid_id>", methods=["PUT"])
+@merakicloudsimulator.route("/networks/<network_id>/wireless/ssids/<ssid_id>", methods=["PUT"])
 def put_ssid(network_id, ssid_id):
     """Simulate setting SSID configurations."""
     print(f"Settings updated for network {network_id} ssid {ssid_id}.")
@@ -32,7 +32,7 @@ def put_ssid(network_id, ssid_id):
 
 
 @merakicloudsimulator.route(
-    "/networks/<network_id>/ssids/<ssid_id>/splashSettings",
+    "/networks/<network_id>/wireless/ssids/<ssid_id>/splash/settings",
     methods=["PUT"],
 )
 def put_splash(network_id, ssid_id):
