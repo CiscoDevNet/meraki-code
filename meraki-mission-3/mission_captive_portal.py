@@ -27,6 +27,7 @@ import json
 import os
 import sys
 from pprint import pprint
+from waitress import serve
 
 import requests
 from flask import Flask, json, redirect, render_template, request
@@ -165,6 +166,7 @@ def get_click():
 
     host = request.host_url
     base_grant_url = request.args.get('base_grant_url')
+    base_grant_url = base_grant_url.replace("http://","https://")
     user_continue_url = request.args.get('user_continue_url')
     node_mac = request.args.get('node_mac')
     client_ip = request.args.get('client_ip')
@@ -280,4 +282,5 @@ if __name__ == "__main__":
     set_splash_page_settings(network_id, captive_portal_base_url)
 
     # Start the External Captive Portal web server
-    app.run(host="0.0.0.0", port=5004, debug=False)
+    # app.run(host="0.0.0.0", port=5004, debug=False)
+    serve(app, host='0.0.0.0', port=5004, url_scheme='https')
