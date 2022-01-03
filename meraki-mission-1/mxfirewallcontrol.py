@@ -39,7 +39,7 @@ import env_user  # noqa
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
 # MERAKI BASE URL 
-base_url = "https://api.meraki.com/api/v0"
+base_url = "https://api.meraki.com/api/v1"
 
 def getnetworklist():
     orgs = ""
