@@ -114,7 +114,7 @@ def collect_zone_information(topic, payload):
 
 def notify(serial_number):
     # Get video link
-    url = "https://api.meraki.com/api/v0/networks/{1}/cameras/{0}/snapshot".format(serial_number, NETWORK_ID)
+    url = "https://api.meraki.com/api/v1/devices/{0}/camera/generateSnapshot".format(serial_number)
 
     # current timestamp
     # ts = str(time.time()).split(".")[0] + "000"
@@ -162,7 +162,7 @@ def get_network_id(network_wh):
     try:
         # MISSION TODO
         orgs = requests.get(
-            "https://api.meraki.com/api/v0/organizations",
+            "https://api.meraki.com/api/v1/organizations",
             headers={
                 "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
             }
@@ -182,7 +182,7 @@ def get_network_id(network_wh):
             try:
                 # MISSION TODO
                 networks = requests.get(
-                    "https://api.meraki.com/api/v0/organizations/"+org["id"]+"/networks",
+                    "https://api.meraki.com/api/v1/organizations/"+org["id"]+"/networks",
                     headers={
                         "X-Cisco-Meraki-API-Key": env_user.MERAKI_API_KEY,
                     })
