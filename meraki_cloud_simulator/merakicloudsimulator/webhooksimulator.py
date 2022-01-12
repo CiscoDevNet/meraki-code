@@ -49,13 +49,13 @@ def generate_fake_http_server_id():
 
 
 # Flask micro-webservice API/URI endpoints
-@merakicloudsimulator.route("/networks/<network_id>/webhooks/httpServers", methods=["GET"])
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/webhooks/httpServers", methods=["GET"])
 def get_http_servers(network_id):
     """Simulate getting httpServers configurations."""
     print(f"Getting httpServers for {network_id}.")
     return jsonify(http_servers)
 
-@merakicloudsimulator.route("/networks/<network_id>/webhooks/httpServers", methods=["POST"])
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/webhooks/httpServers", methods=["POST"])
 def post_httpServers(network_id):
     """Simulate setting httpServers configurations."""
     print(f"Settings updated for network {network_id}.")
@@ -70,7 +70,7 @@ def post_httpServers(network_id):
         abort(400)
 
 
-@merakicloudsimulator.route("/networks/<network_id>/alerts/settings",
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/alerts/settings",
     methods=["GET"],
 )
 def get_alert_settings(network_id):
@@ -78,7 +78,7 @@ def get_alert_settings(network_id):
     print(f"Getting alertSettings for {network_id}.")
     return jsonify(alert_settings)
 
-@merakicloudsimulator.route("/networks/<network_id>/alerts/settings",
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/alerts/settings",
     methods=["PUT"],
 )
 def put_alert_settings(network_id):
