@@ -16,14 +16,14 @@ stop_post_thread = False
 
 def post_webhook_alerts():
     while True:
-        print("in big while")
+        #print("in big while")
         global stop_post_thread
         if stop_post_thread:
-            print("breaking while")
+            #print("breaking while")
             break
         for alert in alert_settings["alerts"]:
             if stop_post_thread:
-                print("breaking for loop")
+                #print("breaking for loop")
                 break
             if alert["enabled"] == True:
                 alert_message = alert_messages[alert["type"]]
