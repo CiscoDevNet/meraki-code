@@ -5,3 +5,4 @@ paho-mqtt==1.5.1
 requests==2.25.1
 requests-toolbelt==0.9.1
 webexteamssdk==1.6
+meraki==1.15.0
