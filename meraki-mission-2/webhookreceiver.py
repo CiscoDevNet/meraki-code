@@ -40,7 +40,7 @@ import env_user  # noqa
 teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 
 # MERAKI BASE URL 
-base_url = "http://localhost:5001"
+base_url = "http://localhost:5001/api/v1"
 
 # Flask App
 app = Flask(__name__)
