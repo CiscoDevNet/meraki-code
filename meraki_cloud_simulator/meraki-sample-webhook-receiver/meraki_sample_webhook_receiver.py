@@ -36,7 +36,7 @@ teamsapi = WebexTeamsAPI(access_token=env_user.WT_ACCESS_TOKEN)
 # MERAKI BASE URL 
 # if running in docker-compose base_url = "http://meraki_cloud_simulator:5001"
 # if running seperately
-base_url = "http://localhost:5001"
+base_url = "http://localhost:5001/api/v1"
 
 # Flask App
 app = Flask(__name__)
