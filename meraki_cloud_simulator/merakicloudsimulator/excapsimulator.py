@@ -24,7 +24,7 @@ def generate_fake_mac():
 
 
 # Flask micro-webservice API/URI endpoints
-@merakicloudsimulator.route("/networks/<network_id>/wireless/ssids/<ssid_id>", methods=["PUT"])
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/wireless/ssids/<ssid_id>", methods=["PUT"])
 def put_ssid(network_id, ssid_id):
     """Simulate setting SSID configurations."""
     print(f"Settings updated for network {network_id} ssid {ssid_id}.")
@@ -32,7 +32,7 @@ def put_ssid(network_id, ssid_id):
 
 
 @merakicloudsimulator.route(
-    "/networks/<network_id>/wireless/ssids/<ssid_id>/splash/settings",
+    "/api/v1/networks/<network_id>/wireless/ssids/<ssid_id>/splash/settings",
     methods=["PUT"],
 )
 def put_splash(network_id, ssid_id):
@@ -41,7 +41,7 @@ def put_splash(network_id, ssid_id):
     return jsonify(request.json)
 
 
-@merakicloudsimulator.route("/networks/<network_id>/splashLoginAttempts", methods=["GET"])
+@merakicloudsimulator.route("/api/v1/networks/<network_id>/splashLoginAttempts", methods=["GET"])
 def get_splash_logins(network_id):
     """Get list of Splash Page logins."""
     # We aren't associating specific logins with a network ID
