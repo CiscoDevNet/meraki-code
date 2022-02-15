@@ -14,13 +14,13 @@ def meraki_simulator_go():
     return render_template("index.html")
 
 # Flask micro-webservice API/URI endpoints
-@merakicloudsimulator.route("/organizations", methods=["GET"])
+@merakicloudsimulator.route("/api/v1/organizations", methods=["GET"])
 def get_org_id():
     """Get a list of simulated organizations."""
     return jsonify(ORGANIZATIONS)
 
 
-@merakicloudsimulator.route("/organizations/<organization_id>/networks", methods=["GET"])
+@merakicloudsimulator.route("/api/v1/organizations/<organization_id>/networks", methods=["GET"])
 def get_networks(organization_id):
     """Get the list of networks for an organization."""
     organization_networks = NETWORKS.get(organization_id)
