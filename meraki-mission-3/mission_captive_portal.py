@@ -44,7 +44,7 @@ import env_user  # noqa
 
 
 # Module Variables
-base_url = "http://localhost:5001"  # Using lab simulator
+base_url = "http://localhost:5001/api/v1"  # Using lab simulator
 captive_portal_base_url = "http://localhost:5004"
 base_grant_url = ""
 user_continue_url = ""
