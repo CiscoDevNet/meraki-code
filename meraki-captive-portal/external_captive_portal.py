@@ -26,7 +26,7 @@ def get_click():
         host = os.environ['DEVENV_APP_8080_URL']
     else:
         host = request.host_url
-        host = replace("https", "http")
+        host = host.replace("https", "http")
         
     base_grant_url = request.args.get('base_grant_url')
     user_continue_url = request.args.get('user_continue_url')
