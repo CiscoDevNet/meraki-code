@@ -49,6 +49,7 @@ def put_splash(network_id, ssid_id):
         host = os.environ['DEVENV_APP_8080_URL']
     else:
         host = request.host_url
+        host = host.replace('https', 'http')
 
     if "splashPage" in new_settings_keys and "splashUrl" in new_settings_keys and "redirectUrl" in new_settings_keys:
         captive_portal_url = new_settings["splashUrl"]
@@ -101,6 +102,7 @@ def connect_to_wifi():
         host = os.environ['DEVENV_APP_8080_URL']
     else:
         host = request.host_url
+        host = host.replace('https', 'http')
     
     captive_portal_url = request.form["captive_portal_url"]
     base_grant_url = host + "splash/grant"
