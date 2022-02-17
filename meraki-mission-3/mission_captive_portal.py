@@ -49,7 +49,7 @@ if 'DEVENV_APP_8080_URL' not in os.environ:
 else:
     host = os.environ['DEVENV_APP_8080_URL']
 
-base_url = f"{host}/api/v1}"  # Using lab simulator
+base_url = f"{host}/api/v1"  # Using lab simulator
 captive_portal_base_url = f"{host}"
 base_grant_url = ""
 user_continue_url = ""
