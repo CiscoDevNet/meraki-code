@@ -4,6 +4,7 @@ from flask import request, render_template, redirect, jsonify, abort
 import random
 import requests
 from datetime import datetime
+import os
 
 # Module Variables
 captive_portal_url = ""
