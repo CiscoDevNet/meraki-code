@@ -36,9 +36,35 @@ def put_ssid(network_id, ssid_id):
     methods=["PUT"],
 )
 def put_splash(network_id, ssid_id):
+    global captive_portal_url
+    global user_continue_url
     """Simulate setting Splash Page configurations."""
     print(f"Splash settings updated for network {network_id} ssid {ssid_id}.")
-    return jsonify(request.json)
+    new_settings = request.json
+    new_settings_keys = new_settings.keys()
+    print(new_settings_keys)
+
+    if "splashPage" in new_settings_keys and "splashUrl" in new_settings_keys and "redirectUrl" in new_settings_keys:
+        captive_portal_url = new_settings["splashUrl"]
+        base_grant_url = request.host_url + "splash/grant"
+        user_continue_url = new_settings["redirectUrl"]
+        node_mac = generate_fake_mac()
+        client_ip = request.remote_addr
+        client_mac = generate_fake_mac()
+        splash_click_time = datetime.utcnow().isoformat()
+        full_url = (
+          captive_portal_url
+          + "?base_grant_url=" + base_grant_url
+          + "&user_continue_url=" + user_continue_url
+          + "&node_mac=" + node_mac
+          + "&client_ip=" + client_ip
+          + "&client_mac=" + client_mac
+        )
+        print(captive_portal_url)
+        print(user_continue_url)
+        return jsonify(new_settings)
+    else:
+        abort(400) 
 
 
 @merakicloudsimulator.route("/api/v1/networks/<network_id>/splashLoginAttempts", methods=["GET"])
@@ -51,14 +77,20 @@ def get_splash_logins(network_id):
 
 @merakicloudsimulator.route("/excap", methods=["GET"])
 def excap_go():
+    global captive_portal_url
+    global user_continue_url
     """Process GET requests to the /excap URI; render the index.html page."""
-    return render_template("excap.html")
+    print(captive_portal_url)
+    print(user_continue_url)
+    return render_template("excap.html", captive_portal_url = captive_portal_url, user_continue_url = user_continue_url)
 
 
 @merakicloudsimulator.route("/connecttowifi", methods=["POST"])
 def connect_to_wifi():
     """Save captive portal details; redirect to the External Captive Portal."""
-
+    global captive_portal_url
+    global user_continue_url
+    
     captive_portal_url = request.form["captive_portal_url"]
     base_grant_url = request.host_url + "splash/grant"
     user_continue_url = request.form["user_continue_url"]
