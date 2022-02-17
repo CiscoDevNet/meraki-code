@@ -17,10 +17,10 @@
       </div>
     </div>
     <div id="content">
-      <h1>Meraki Captive Portal Simulator</h1>
+      <h1>Meraki Captive Portal Simulator</h1> 
       <form method="POST" action="/connecttowifi">
-        Enter Captive Portal URL: <input name="captive_portal_url" type="text" placeholder="Fully Qualified URL" style="width: 70%"> <br><br>
-        Enter Post Authorization URL: <input name="user_continue_url" type="text" value="https://developer.cisco.com/meraki" tyle="width: 70%"><br><br>
+        Enter Captive Portal URL: <input name="captive_portal_url" type="text" placeholder="Fully Qualified URL" style="width: 70%" value="{{ captive_portal_url }}"> <br><br>
+        Enter Post Authorization URL: <input name="user_continue_url" type="text" placeholder="Fully Qualified URL" value="{{ user_continue_url }}" tyle="width: 70%"><br><br>
         <input type="submit" value="Simulate Wifi Connection">
       </form>
     </div>
