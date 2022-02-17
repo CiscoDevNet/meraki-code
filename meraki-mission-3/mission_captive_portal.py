@@ -175,7 +175,7 @@ def get_click():
     node_mac = request.args.get('node_mac')
     client_ip = request.args.get('client_ip')
     client_mac = request.args.get('client_mac')
-    success_url = captive_portal_base_url  + "success"
+    success_url = captive_portal_base_url  + "/success"
 
     return render_template(
         "click.html",
