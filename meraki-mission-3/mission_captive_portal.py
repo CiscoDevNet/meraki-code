@@ -43,11 +43,11 @@ sys.path.insert(0, project_root)
 import env_user  # noqa
 
 # Module Variables
-if os.environ['DEVENV_APP_8080_URL'] is not None:
-    host = os.environ['DEVENV_APP_8080_URL']
-else:
+if 'DEVENV_APP_8080_URL' not in os.environ:
     host = request.host_url
-    host = host.replace("https", "http")
+    host = host.replace('https', 'http')
+else:
+    host = os.environ['DEVENV_APP_8080_URL'
 
 base_url = f"{host}/api/v1}"  # Using lab simulator
 captive_portal_base_url = f"{host}"
