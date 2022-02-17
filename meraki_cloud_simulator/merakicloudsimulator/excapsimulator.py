@@ -99,11 +99,11 @@ def connect_to_wifi():
     global captive_portal_url
     global user_continue_url
     
-    if os.environ['DEVENV_APP_8080_URL'] is not None:
-        host = os.environ['DEVENV_APP_8080_URL']
-    else:
+    if os.environ['DEVENV_APP_8080_URL'] is None:
         host = request.host_url
         host = host.replace('https', 'http')
+    else:
+        host = os.environ['DEVENV_APP_8080_URL']
     
     captive_portal_url = request.form["captive_portal_url"]
     base_grant_url = host + "splash/grant"
