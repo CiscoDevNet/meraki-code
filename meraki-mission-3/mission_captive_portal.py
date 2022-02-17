@@ -42,10 +42,9 @@ project_root = os.path.abspath(os.path.join(here, ".."))
 sys.path.insert(0, project_root)
 import env_user  # noqa
 
-
 # Module Variables
-base_url = "http://localhost:5001/api/v1"  # Using lab simulator
-captive_portal_base_url = "http://localhost:5004"
+base_url = f"{os.environ['DEVENV_APP_8080_URL']}/api/v1}"  # Using lab simulator
+captive_portal_base_url = f"{os.environ['DEVENV_APP_8080_URL']}"
 base_grant_url = ""
 user_continue_url = ""
 success_url = ""
@@ -112,9 +111,11 @@ def set_splash_page_settings(network_id, captive_portal_base_url):
             "Content-Type": "application/json",
         },
         json={
-            "splashPage": "Click-through splash page",
-            "splashUrl": captive_portal_base_url + '/click',
-            "useCustomUrl": True
+          "splashPage": "Click-through splash page",
+          "splashUrl": captive_portal_base_url + '/click',
+          "useSplashUrl": True,
+          "redirectUrl" : "https://developer.cisco.com/meraki",
+          "useRedirectUrl": True
         },
     )
     # END MISSION SECTION
@@ -163,15 +164,13 @@ def get_click():
     global base_grant_url
     global user_continue_url
     global success_url
-
-    host = request.host_url
+    
     base_grant_url = request.args.get('base_grant_url')
-    base_grant_url = base_grant_url.replace("http://","https://")
     user_continue_url = request.args.get('user_continue_url')
     node_mac = request.args.get('node_mac')
     client_ip = request.args.get('client_ip')
     client_mac = request.args.get('client_mac')
-    success_url = host + "success"
+    success_url = captive_portal_base_url  + "success"
 
     return render_template(
         "click.html",
@@ -282,5 +281,5 @@ if __name__ == "__main__":
     set_splash_page_settings(network_id, captive_portal_base_url)
 
     # Start the External Captive Portal web server
-    # app.run(host="0.0.0.0", port=5004, debug=False)
-    serve(app, host='0.0.0.0', port=5004, url_scheme='https')
+    app.run(host="0.0.0.0", port=5004, debug=False)
+    #serve(app, host='0.0.0.0', port=5004, url_scheme='https')
