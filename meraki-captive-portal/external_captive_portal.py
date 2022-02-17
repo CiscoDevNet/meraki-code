@@ -22,11 +22,11 @@ def get_click():
     global user_continue_url
     global success_url
 
-    if os.environ['DEVENV_APP_8080_URL'] is not None:
-        host = os.environ['DEVENV_APP_8080_URL']
-    else:
+    if 'DEVENV_APP_8080_URL' not in os.environ:
         host = request.host_url
-        host = host.replace("https", "http")
+        host = host.replace('https', 'http')
+    else:
+        host = os.environ['DEVENV_APP_8080_URL'
         
     base_grant_url = request.args.get('base_grant_url')
     user_continue_url = request.args.get('user_continue_url')
