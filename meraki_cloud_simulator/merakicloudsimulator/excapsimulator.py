@@ -50,8 +50,9 @@ def put_splash(network_id, ssid_id):
         host = request.host_url
         host = host.replace('https', 'http')
     else:
-        host = os.environ['DEVENV_APP_8080_URL'
-
+        host = os.environ['DEVENV_APP_8080_URL']
+        
+        
     if "splashPage" in new_settings_keys and "splashUrl" in new_settings_keys and "redirectUrl" in new_settings_keys:
         captive_portal_url = new_settings["splashUrl"]
         base_grant_url = host + "splash/grant"
