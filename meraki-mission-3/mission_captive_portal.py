@@ -44,8 +44,7 @@ import env_user  # noqa
 
 # Module Variables
 if 'DEVENV_APP_8080_URL' not in os.environ:
-    host = request.host_url
-    host = host.replace('https', 'http')
+    host = "http://localhost:5004"
 else:
     host = os.environ['DEVENV_APP_8080_URL']
 
