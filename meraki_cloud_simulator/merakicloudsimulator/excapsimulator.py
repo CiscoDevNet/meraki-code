@@ -55,7 +55,7 @@ def put_splash(network_id, ssid_id):
         
     if "splashPage" in new_settings_keys and "splashUrl" in new_settings_keys and "redirectUrl" in new_settings_keys:
         captive_portal_url = new_settings["splashUrl"]
-        base_grant_url = host + "splash/grant"
+        base_grant_url = host + "/splash/grant"
         user_continue_url = new_settings["redirectUrl"]
         node_mac = generate_fake_mac()
         client_ip = request.remote_addr
@@ -107,7 +107,7 @@ def connect_to_wifi():
         host = os.environ['DEVENV_APP_8080_URL']
     
     captive_portal_url = request.form["captive_portal_url"]
-    base_grant_url = host + "splash/grant"
+    base_grant_url = host + "/splash/grant"
     user_continue_url = request.form["user_continue_url"]
     node_mac = generate_fake_mac()
     client_ip = request.remote_addr
