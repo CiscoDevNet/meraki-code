@@ -46,11 +46,11 @@ def put_splash(network_id, ssid_id):
     print(new_settings_keys)
     
     
-    if os.environ['DEVENV_APP_8080_URL'] is not None:
-        host = os.environ['DEVENV_APP_8080_URL']
-    else:
+    if 'DEVENV_APP_8080_URL' not in os.environ:
         host = request.host_url
         host = host.replace('https', 'http')
+    else:
+        host = os.environ['DEVENV_APP_8080_URL'
 
     if "splashPage" in new_settings_keys and "splashUrl" in new_settings_keys and "redirectUrl" in new_settings_keys:
         captive_portal_url = new_settings["splashUrl"]
@@ -99,7 +99,7 @@ def connect_to_wifi():
     global captive_portal_url
     global user_continue_url
     
-    if os.environ['DEVENV_APP_8080_URL'] is None:
+    if 'DEVENV_APP_8080_URL' not in os.environ:
         host = request.host_url
         host = host.replace('https', 'http')
     else:
