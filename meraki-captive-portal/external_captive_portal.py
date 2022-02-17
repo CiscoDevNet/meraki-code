@@ -26,14 +26,14 @@ def get_click():
         host = request.host_url
         host = host.replace('https', 'http')
     else:
-        host = f"{os.environ['DEVENV_APP_8080_URL']}/"
+        host = os.environ['DEVENV_APP_8080_URL']
         
     base_grant_url = request.args.get('base_grant_url')
     user_continue_url = request.args.get('user_continue_url')
     node_mac = request.args.get('node_mac')
     client_ip = request.args.get('client_ip')
     client_mac = request.args.get('client_mac')
-    success_url = host + "success"
+    success_url = host + "/success"
 
     return render_template(
         "click.html",
