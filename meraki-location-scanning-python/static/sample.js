@@ -8,7 +8,7 @@
     allMarkers = [],                            // The markers when we are in "View All" mode
     lastMac = "",                               // The last requested MAC to follow
     infoWindow = new google.maps.InfoWindow(),  // The marker tooltip
-    markerImage = new google.maps.MarkerImage('/static/blue_circle.png',
+    markerImage = new google.maps.MarkerImage("https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
       new google.maps.Size(15, 15),
       new google.maps.Point(0, 0),
       new google.maps.Point(4.5, 4.5));
